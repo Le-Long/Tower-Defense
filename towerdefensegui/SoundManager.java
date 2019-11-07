@@ -23,7 +23,7 @@ public class SoundManager {
 	public void setBackgroundMusic()
 	{
 		try {
-			backgroundMusicBuffer = getClass().getResourceAsStream("/sounds/musics/background.wav");
+			backgroundMusicBuffer = getClass().getResourceAsStream("/background.wav");
 			backGroundMusic = new AudioStream(backgroundMusicBuffer);
 			AudioPlayer.player.start(backGroundMusic);
 		}	catch(Exception exc) {

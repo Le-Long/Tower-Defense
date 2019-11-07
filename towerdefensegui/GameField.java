@@ -18,8 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import GameTile.Road;
-import GameTile.Mountain;
+import GameTile.*;
 /**
  *
  * @author TA
@@ -38,14 +37,14 @@ public class GameField extends JPanel {
     private BufferedImage lifeImage;
     private BufferedImage gameWonImage;
     private BufferedImage gameLostImage;
-    private ImageIcon myImageIcon = new ImageIcon("/Sequences/64x48/explosion1_003.png");
+    //private ImageIcon myImageIcon = new ImageIcon("/Sequences/64x48/explosion1_003.png");
 	
     public GameField(){
-        timeImageBuffer = "/images/shop/layout/time_icon.png";
-	resourceImageBuffer = "/images/shop/layout/resource_icon.png";
-	waveImageBuffer = "/images/shop/layout/wave_icon.png";
-	lifeImageBuffer = "/images/shop/layout/life_icon.png";
-	layoutBackgroundBuffer = "/images/shop/layout/layout_background.jpg";
+        timeImageBuffer = "/images/time_icon.png";
+	resourceImageBuffer = "/images/resource_icon.png";
+	waveImageBuffer = "/images/wave_icon.png";
+	lifeImageBuffer = "/images/life_icon.png";
+	layoutBackgroundBuffer = "/images/layout_background.jpg";
 	try {timeImage = ImageIO.read(getClass().getResourceAsStream(timeImageBuffer));}	
 	catch(IOException exc) {exc.printStackTrace();}
 	try {resourceImage = ImageIO.read(getClass().getResourceAsStream(resourceImageBuffer));}	
@@ -57,9 +56,9 @@ public class GameField extends JPanel {
 	try {layoutBackground = ImageIO.read(getClass().getResourceAsStream(layoutBackgroundBuffer));}
 	catch(IOException exc) {exc.printStackTrace();}
 	//
-	try {gameWonImage = ImageIO.read(getClass().getResourceAsStream("/images/gamealert/game_won.png"));}	
+	try {gameWonImage = ImageIO.read(getClass().getResourceAsStream("/images/game_won.png"));}	
 	catch(IOException exc) {exc.printStackTrace();}
-	try {gameLostImage = ImageIO.read(getClass().getResourceAsStream("/images/gamealert/game_lost.png"));}	
+	try {gameLostImage = ImageIO.read(getClass().getResourceAsStream("/images/game_lost.png"));}	
 	catch(IOException exc) {exc.printStackTrace();}
 	//////////////////////////
 	game = new GameManager();
@@ -91,30 +90,91 @@ public class GameField extends JPanel {
 		//DRAW GRIDS AND TOWERS
 		drawGridsAndTowers(g);
 		//DRAW ENEMIES
-		drawEnemies(g);
+		//drawEnemies(g);
 		//DRAW GRAVEYARD
-		drawGraveyard(g);
+		//drawGraveyard(g);
 		//DRAW PROJECTILES
-		drawProjectiles(g);
+		//drawProjectiles(g);
 		//DRAW SHOP
-		game.getShop().draw(g);
+		//game.getShop().draw(g);
 		//DRAW LAYOUT ELEMENTS
 		drawLayoutElements(g);
 	}
 		
 	private void drawGridsAndTowers(Graphics g){
             //Duy's coding part 
-            repaint();
-            for(int i = 0; i < game.getGrid().getGridWidth();i++){
-			for(int j = 0; j < game.getGrid().getGridHeight();j++){
-				if(game.getGrid().getGridSlot(i,j) instanceof Mountain){
+            int width=game.getGrid().getGridWidth();
+            int height=game.getGrid().getGridHeight();
+            int slotSize=game.getGrid().getGridSlotSize();
+            for (int i=0; i < width; i++){
+    		for (int j=0; j < height; j++){
+    			String name="towerDefense_tile";
+    			String id="024";
+				GameTile cur=game.getGrid().getGridSlot(i,j);
+				if (cur instanceof Tower) continue;
+
+				if (cur instanceof Road){
+					id="050";
+				}
+
+				if (cur instanceof Mountain){
+					boolean up=false;
+					if (i > 0){
+						up=(game.getGrid().getGridSlot(i-1,j) instanceof Road);
+					}
+					boolean down=false;
+					if (i < width-1){
+						down=(game.getGrid().getGridSlot(i+1,j) instanceof Road);
+					}
+					boolean right=false;
+					if (j > 0){
+						right=(game.getGrid().getGridSlot(i,j-1) instanceof Road);
+					}
+					boolean left=false;
+					if (j < height-1){
+						right=(game.getGrid().getGridSlot(i,j+1) instanceof Road);
+					}
+					if ((up)&&(!down)&&(!left)&&(!right)){
+						id="023";
+					}
+					if ((!up)&&(down)&&(!left)&&(!right)){
+						id="025";
+					}
+					if ((!up)&&(!down)&&(left)&&(!right)){
+						id="001";
+					}
+					if ((!up)&&(!down)&&(!left)&&(right)){
+						id="047";
+					}
+					if ((up)&&(!down)&&(left)&&(!right)){
+						id="299";
+					}
+					if ((up)&&(!down)&&(!left)&&(right)){
+						id="004";
+					}
+					if ((!up)&&(down)&&(left)&&(right)){
+						id="046";
+					}
+					if ((!up)&&(down)&&(!left)&&(right)){
+						id="048";
+					}
+				}
+				name+=id;
+				//name = name of picture
+                                try { 
+				g.drawImage(ImageIO.read(getClass().getResourceAsStream("/images/" + name + ".png")),slotSize*i,slotSize*j,this);
+                                } catch(IOException exc) { 
+					exc.printStackTrace();
+			}
+				repaint();
+                                if(game.getGrid().getGridSlot(i,j) instanceof Mountain){
                                         
 					g.drawImage(((Mountain)(game.getGrid().getGridSlot(i,j))).towerImage, game.getGrid().getGridSlotSize()*i, game.getGrid().getGridSlotSize()*j, this);
 					repaint();
 				}
-			}
-		}
-	}
+                }
+            }
+        }
 	//ALSO DRAWS ON HIT EFFECTS
 	private void drawEnemies(Graphics g){
 		for(int i=0; i<game.getEnemyManager().enemyList.size(); i++){	
@@ -177,9 +237,9 @@ public class GameField extends JPanel {
 		g.drawImage(resourceImage,312,543,this);
 		g.drawString(game.getPlayerGold()+"",342,558);
 		g.drawImage(waveImage,452,543,this);
-		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/15" ,484,558); // will be updated
+		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/4" ,484,558); // will be updated
 		g.drawImage(lifeImage,394,543,this);
-		g.drawString(game.getRemainingChances()+"/10",426,558);
+		g.drawString(game.getRemainingChances()+"/5",426,558);
 		repaint();
         }
 }
