@@ -25,7 +25,7 @@ public class Shop {
 	
 	public Shop()
 	{
-		backgroundImageBuffer = "/images/shop/shopBackground.jpg";
+		backgroundImageBuffer = "/images/shopBackground.jpg";
 		try {
 			backgroundImage = ImageIO.read(getClass().getResourceAsStream(backgroundImageBuffer));
 		}	catch(IOException exc) {

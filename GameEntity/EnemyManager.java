@@ -13,10 +13,10 @@ import GameTile.*;
  * @author TA
  */
 public class EnemyManager {
-        public ArrayList<Enemy> enemyList;
+	public ArrayList<Enemy> enemyList;
 	public int enemyCount = 0;
-	private int waveNo;
-        Spawner starter;
+	private int waveNo = 0;
+	Spawner starter = new Spawner();
 
 	public EnemyManager(){
 		enemyList = new ArrayList<Enemy>();
@@ -24,15 +24,21 @@ public class EnemyManager {
 	}
 
 	
-	public void initializeEnemies(int waveNo, int enemyNo){
-            //Truong's coding part 
-        }
-        public void killEnemy(int index){
+	public void initializeEnemies(){
+            //Truong's coding part
+		if (waveNo == 0) enemyList.add(new NormalEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+		if (waveNo == 1) enemyList.add(new TankerEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+		if (waveNo == 2) enemyList.add(new AirEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+		if (waveNo == 3) enemyList.add(new BossEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+		enemyCount++;
+	}
+
+	public void killEnemy(int index){
 		enemyList.remove(index);
 		enemyCount--;
 	}
-	
-	//GETTERS
+
+	public void setWaveNo(int waveNo){this.waveNo = waveNo;}
 	public int getWaveNo(){
 		return waveNo;
 	}
