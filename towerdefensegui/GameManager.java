@@ -126,7 +126,7 @@ public class GameManager {
             //Truong's coding part
 			if (frameRate % 10 == 0) {
 				if (enemyManager.getWaveNo() != 3) {
-					if (numOfWaveEnemy < 3) {
+					if (numOfWaveEnemy < 10) {
 						enemyManager.initializeEnemies();
 						numOfWaveEnemy++;
 					}
