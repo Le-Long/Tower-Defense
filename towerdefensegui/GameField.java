@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import GameEntity.AirEnemy;
 import GameTile.*;
 /**
  *
@@ -90,7 +91,7 @@ public class GameField extends JPanel {
 		//DRAW GRIDS AND TOWERS
 		drawGridsAndTowers(g);
 		//DRAW ENEMIES
-		//drawEnemies(g);
+		drawEnemies(g);
 		//DRAW GRAVEYARD
 		//drawGraveyard(g);
 		//DRAW PROJECTILES
@@ -177,11 +178,22 @@ public class GameField extends JPanel {
         }
 	//ALSO DRAWS ON HIT EFFECTS
 	private void drawEnemies(Graphics g){
-		for(int i=0; i<game.getEnemyManager().enemyList.size(); i++){	
-			//DRAW ENEMIES
-			g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage,game.getEnemyManager().enemyList.get(i).getLocX(),game.getEnemyManager().enemyList.get(i).getLocY(), this);
+		for(int i=0; i<game.getEnemyManager().enemyList.size(); i++){
+			//DRAW ENEMIES & SIDEPATH
+			if (game.getEnemyManager().enemyList.get(i) instanceof AirEnemy) {
+				if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
+					g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX()-30, game.getEnemyManager().enemyList.get(i).getLocY(),this);
+				g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+			}
+			else {
+				g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+				if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
+					g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(),this);
+			}
 			//DRAW HEALTHBAR
 			g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth,game.getEnemyManager().enemyList.get(i).getLocX()-15,game.getEnemyManager().enemyList.get(i).getLocY()-12, this);
+			//DRAW SIDEPATH
+
 			//DRAW EFFECTS
 			
 			if(game.getEnemyManager().enemyList.get(i).isGettingHit())

@@ -35,6 +35,7 @@ public class GameManager {
 	private int remainingChances;
 	private boolean gameLost;
 	private boolean gameWon;
+	private int numOfWaveEnemy;
 	
 	private ArrayList<Enemy> graveyard;
 
@@ -49,6 +50,7 @@ public class GameManager {
 		frameRate = 0;
 		time = minute + ":" + second;
 		playerGold = 400;
+		numOfWaveEnemy = 0;
 		shop = new Shop();
 		int[][] test = {
 				{0,0,0,0,0,0,0,0,0},
@@ -122,7 +124,23 @@ public class GameManager {
         //UPDATING WAVES
 	public void updateWave() {
             //Truong's coding part
-        }
+			if (frameRate % 10 == 0) {
+				if (enemyManager.getWaveNo() != 3) {
+					if (numOfWaveEnemy < 10) {
+						enemyManager.initializeEnemies();
+						numOfWaveEnemy++;
+					}
+					else if (enemyManager.enemyList.isEmpty()) {
+						numOfWaveEnemy = 0;
+						enemyManager.setWaveNo(enemyManager.getWaveNo() + 1);
+					}
+				}
+				else {
+					enemyManager.initializeEnemies();
+					enemyManager.setWaveNo(enemyManager.getWaveNo() + 1);
+				}
+			}
+	}
         //UPDATE ENEMIES
 	private void updateEnemies(){
 		//update alive enemies
@@ -138,14 +156,25 @@ public class GameManager {
 		if(enemyManager.enemyCount != 0){
 			for(int i=0; i<enemyManager.enemyList.size(); i++)
 			{	
-				if(enemyManager.enemyList.get(i).getVelocity()[0] == 0 && enemyManager.enemyList.get(i).getVelocity()[1] == enemyManager.enemyList.get(i).getSpeed())
+				if(enemyManager.enemyList.get(i).getVelocity()[0] == 0 && enemyManager.enemyList.get(i).getVelocity()[1] == enemyManager.enemyList.get(i).getSpeed()){
+					enemyManager.enemyList.get(i).setEnemyImage(2);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(2);
+				}
+				else if(enemyManager.enemyList.get(i).getVelocity()[0] == enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0){
+					enemyManager.enemyList.get(i).setEnemyImage(3);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(3);
+				}
+				else if(enemyManager.enemyList.get(i).getVelocity()[0] == 0&& enemyManager.enemyList.get(i).getVelocity()[1] == -enemyManager.enemyList.get(i).getSpeed()){
+ 					enemyManager.enemyList.get(i).setEnemyImage(1);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(1);
+				}
+				else {
 					enemyManager.enemyList.get(i).setEnemyImage(0);
-				else if(enemyManager.enemyList.get(i).getVelocity()[0] == enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0)
-					enemyManager.enemyList.get(i).setEnemyImage(5);
-				else if(enemyManager.enemyList.get(i).getVelocity()[0] == 0&& enemyManager.enemyList.get(i).getVelocity()[1] == -enemyManager.enemyList.get(i).getSpeed())
- 					enemyManager.enemyList.get(i).setEnemyImage(10);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(0);
+				}
 			}
-			for(int i=0; i<enemyManager.enemyList.size(); i++)
+		}
+		for(int i=0; i<enemyManager.enemyList.size(); i++)
 			{	
 				double hppercent = ((double)enemyManager.enemyList.get(i).getHealth() / (double)enemyManager.enemyList.get(i).getMaxHealth());
 				enemyManager.enemyList.get(i).setEnemyHB(hppercent);
@@ -218,7 +247,6 @@ public class GameManager {
 
 			}
 		}
-	}
 	//UPDATING GRAVEYARD
 	private void updateGraveyard(){
 		int updateFrequency = frameRate % 2;
