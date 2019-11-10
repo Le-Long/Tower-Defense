@@ -102,9 +102,9 @@ public class Shop {
 				return;
 			}
 		}
-		else if((mouseX>60&&mouseX<120) && (mouseY < 696 && mouseY > 636))
+            else */ if((mouseX>60&&mouseX<120) && (mouseY < 696 && mouseY > 636))
 		{
-			towerToPlace = new MortarTower();
+			towerToPlace = new NormalTower();
 			if(playerGold >= towerToPlace.getCost()){
 				towerBought = true;
 				return;
@@ -117,7 +117,7 @@ public class Shop {
 		}
 		else if((mouseX>120&&mouseX<180) && (mouseY < 696 && mouseY > 636))
 		{
-			towerToPlace = new OilTower();
+			towerToPlace = new SniperTower();
 			if(playerGold >= towerToPlace.getCost()){
 				towerBought = true;
 				return;
@@ -130,7 +130,7 @@ public class Shop {
 		}
 		else if((mouseX>180&&mouseX<240) && (mouseY < 696 && mouseY > 636))
 		{
-			towerToPlace = new PoisonTower();
+			towerToPlace = new MachinegunTower();
 			if(playerGold >= towerToPlace.getCost()){
 				towerBought = true;
 				return;
@@ -140,53 +140,28 @@ public class Shop {
 				towerBought = false;
 				return;
 			}
-		}*/
+		}
 	}
 	
 	public void setShopItems()
 	{
-                /*Long's coding part
+                /*Long's coding part*/
 		itemImage = new BufferedImage[itemCount];
 		try {
-			itemImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/arcane_tower_shop.png"));
+			itemImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_NormalTower.png"));
 		}	catch(IOException exc) {
 				exc.printStackTrace();
 		}
 		try {
-			itemImage[1] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/arrow_tower_shop.png"));
+			itemImage[1] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_SniperTower.png"));
 		}	catch(IOException exc) {
 				exc.printStackTrace();
 		}
 		try {
-			itemImage[2] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/balista_tower_shop.png"));
+			itemImage[2] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_MachinegunTower.png"));
 		}	catch(IOException exc) {
 				exc.printStackTrace();
 		}
-		try {
-			itemImage[3] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/cannon_tower_shop.png"));
-		}	catch(IOException exc) {
-				exc.printStackTrace();
-		}
-		try {
-			itemImage[4] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/ice_tower_shop.png"));
-		}	catch(IOException exc) {
-				exc.printStackTrace();
-		}
-		try {
-			itemImage[5] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/mortar_tower_shop.png"));
-		}	catch(IOException exc) {
-				exc.printStackTrace();
-		}
-		try {
-			itemImage[6] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/oil_tower_shop.png"));
-		}	catch(IOException exc) {
-				exc.printStackTrace();
-		}
-		try {
-			itemImage[7] = ImageIO.read(getClass().getResourceAsStream("/images/shop/tower_icons/poison_tower_shop.png"));
-		}	catch(IOException exc) {
-				exc.printStackTrace();
-		}*/
 	}
 	//GETTERS
 	public int getItemCount(){
@@ -207,13 +182,13 @@ public class Shop {
 	}
 	public void draw(Graphics g){
 		g.drawImage(backgroundImage,0,576,null);
-		g.drawImage(itemImage[0],0,576,null);
-		g.drawImage(itemImage[1],60,576,null);
-		g.drawImage(itemImage[2],120,576,null);
-		g.drawImage(itemImage[3],180,576,null);
-		g.drawImage(itemImage[4],0,636,null);
-		g.drawImage(itemImage[5],60,636,null);
-		g.drawImage(itemImage[6],120,636,null);
-		g.drawImage(itemImage[7],180,636,null);
+		//g.drawImage(itemImage[0],0,576,null);
+		//g.drawImage(itemImage[1],60,576,null);
+		//g.drawImage(itemImage[1],120,576,null);
+		//g.drawImage(itemImage[3],180,576,null);
+		g.drawImage(itemImage[3],0,636,null);
+		g.drawImage(itemImage[0],60,636,null);
+		g.drawImage(itemImage[1],120,636,null);
+		g.drawImage(itemImage[2],180,636,null);
 	}
 }
