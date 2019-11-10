@@ -97,7 +97,7 @@ public class GameField extends JPanel {
 		//DRAW PROJECTILES
 		//drawProjectiles(g);
 		//DRAW SHOP
-		//game.getShop().draw(g);
+		game.getShop().draw(g);
 		//DRAW LAYOUT ELEMENTS
 		drawLayoutElements(g);
 	}
@@ -243,15 +243,15 @@ public class GameField extends JPanel {
 			g.drawImage(gameLostImage,300,300,this);
 		}
 		
-		g.drawImage(layoutBackground,0,536,this);		
-		g.drawImage(timeImage,170,543,this);
-		g.drawString(game.getTime(),202,558);
-		g.drawImage(resourceImage,312,543,this);
-		g.drawString(game.getPlayerGold()+"",342,558);
-		g.drawImage(waveImage,452,543,this);
-		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/4" ,484,558); // will be updated
-		g.drawImage(lifeImage,394,543,this);
-		g.drawString(game.getRemainingChances()+"/5",426,558);
+		g.drawImage(layoutBackground,0,576,this);		
+		g.drawImage(timeImage,170,590,this);
+		g.drawString(game.getTime(),202,610);
+		g.drawImage(resourceImage,270,590,this);
+		g.drawString(game.getPlayerGold()+"",302,610);
+		g.drawImage(waveImage,370,587,this);
+		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/4" ,410,610); // will be updated
+		g.drawImage(lifeImage,470,590,this);
+		g.drawString(game.getRemainingChances()+"/5",502,610);
 		repaint();
         }
 }
