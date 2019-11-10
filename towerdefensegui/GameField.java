@@ -18,17 +18,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import GameEntity.AirEnemy;
 import GameTile.*;
+
 /**
- *
  * @author TA
  */
 public class GameField extends JPanel {
     private GameManager game;
     private String timeImageBuffer;
     private String resourceImageBuffer;
-    private BufferedImage timeImage; 
+    private BufferedImage timeImage;
     private BufferedImage resourceImage;
     private String layoutBackgroundBuffer;
     private BufferedImage layoutBackground;
@@ -39,85 +38,106 @@ public class GameField extends JPanel {
     private BufferedImage gameWonImage;
     private BufferedImage gameLostImage;
     //private ImageIcon myImageIcon = new ImageIcon("/Sequences/64x48/explosion1_003.png");
-	
-    public GameField(){
+
+    public GameField() {
         timeImageBuffer = "/images/time_icon.png";
-	resourceImageBuffer = "/images/resource_icon.png";
-	waveImageBuffer = "/images/wave_icon.png";
-	lifeImageBuffer = "/images/life_icon.png";
-	layoutBackgroundBuffer = "/images/layout_background.jpg";
-	try {timeImage = ImageIO.read(getClass().getResourceAsStream(timeImageBuffer));}	
-	catch(IOException exc) {exc.printStackTrace();}
-	try {resourceImage = ImageIO.read(getClass().getResourceAsStream(resourceImageBuffer));}	
-	catch(IOException exc) {exc.printStackTrace();}
-	try {waveImage = ImageIO.read(getClass().getResourceAsStream(waveImageBuffer));}	
-	catch(IOException exc) {exc.printStackTrace();}
-	try {lifeImage = ImageIO.read(getClass().getResourceAsStream(lifeImageBuffer));}
-	catch(IOException exc) {exc.printStackTrace();}
-	try {layoutBackground = ImageIO.read(getClass().getResourceAsStream(layoutBackgroundBuffer));}
-	catch(IOException exc) {exc.printStackTrace();}
-	//
-	try {gameWonImage = ImageIO.read(getClass().getResourceAsStream("/images/game_won.png"));}	
-	catch(IOException exc) {exc.printStackTrace();}
-	try {gameLostImage = ImageIO.read(getClass().getResourceAsStream("/images/game_lost.png"));}	
-	catch(IOException exc) {exc.printStackTrace();}
-	//////////////////////////
-	game = new GameManager();
+        resourceImageBuffer = "/images/resource_icon.png";
+        waveImageBuffer = "/images/wave_icon.png";
+        lifeImageBuffer = "/images/life_icon.png";
+        layoutBackgroundBuffer = "/images/layout_background.jpg";
+        try {
+            timeImage = ImageIO.read(getClass().getResourceAsStream(timeImageBuffer));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        try {
+            resourceImage = ImageIO.read(getClass().getResourceAsStream(resourceImageBuffer));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        try {
+            waveImage = ImageIO.read(getClass().getResourceAsStream(waveImageBuffer));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        try {
+            lifeImage = ImageIO.read(getClass().getResourceAsStream(lifeImageBuffer));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        try {
+            layoutBackground = ImageIO.read(getClass().getResourceAsStream(layoutBackgroundBuffer));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        //
+        try {
+            gameWonImage = ImageIO.read(getClass().getResourceAsStream("/images/game_won.png"));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        try {
+            gameLostImage = ImageIO.read(getClass().getResourceAsStream("/images/game_lost.png"));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+        //////////////////////////
+        game = new GameManager();
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(672, Short.MAX_VALUE)
-                .addGap(101, 101, 101))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(672, Short.MAX_VALUE)
+                                .addGap(101, 101, 101))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(714, Short.MAX_VALUE)
-                .addGap(37, 37, 37))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(714, Short.MAX_VALUE)
+                                .addGap(37, 37, 37))
         );
-        this.setPreferredSize(new Dimension(832,776));
+        this.setPreferredSize(new Dimension(832, 776));
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
     }
 
-	//////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////PAINT OBJECTS//////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////
-	public void paintComponent(Graphics g){
-                super.paintComponent(g);
-		//DRAW GRIDS AND TOWERS
-		drawGridsAndTowers(g);
-		//DRAW ENEMIES
-		drawEnemies(g);
-		//DRAW GRAVEYARD
-		//drawGraveyard(g);
-		//DRAW PROJECTILES
-		//drawProjectiles(g);
-		//DRAW SHOP
-		game.getShop().draw(g);
-		//DRAW LAYOUT ELEMENTS
-		drawLayoutElements(g);
-	}
-		
-	private void drawGridsAndTowers(Graphics g){
-            //Duy's coding part 
-            int width=game.getGrid().getGridWidth();
-            int height=game.getGrid().getGridHeight();
-            int slotSize=game.getGrid().getGridSlotSize();
-            for (int i=0; i < width; i++){
-    		for (int j=0; j < height; j++){
-    			String name="towerDefense_tile";
-    			String id="024";
-				GameTile cur=game.getGrid().getGridSlot(i,j);
-				if (cur instanceof Tower) continue;
+    //////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////PAINT OBJECTS//////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        //DRAW GRIDS AND TOWERS
+        drawGridsAndTowers(g);
+        //DRAW ENEMIES
+        //drawEnemies(g);
+        //DRAW GRAVEYARD
+        //drawGraveyard(g);
+        //DRAW PROJECTILES
+        //drawProjectiles(g);
+        //DRAW SHOP
+        //game.getShop().draw(g);
+        //DRAW LAYOUT ELEMENTS
+        drawLayoutElements(g);
+    }
 
-				if (cur instanceof Road){
-					id="050";
-				}
+    private void drawGridsAndTowers(Graphics g) {
+        //Duy's coding part
+        int width = game.getGrid().getGridWidth();
+        int height = game.getGrid().getGridHeight();
+        int slotSize = game.getGrid().getGridSlotSize();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                String name = "towerDefense_tile";
+                String id = "024";
+                GameTile cur = game.getGrid().getGridSlot(i, j);
+                if (cur instanceof Tower) continue;
 
+                if (cur instanceof Road) {
+                    id = "093";
+                }
+				/*
 				if (cur instanceof Mountain){
 					boolean up=false;
 					if (i > 0){
@@ -160,99 +180,88 @@ public class GameField extends JPanel {
 						id="048";
 					}
 				}
-				name+=id;
+				boolean ok=(name == "299")||(name == "002")||(name == "046")||(name == "048");
+				if (ok)
+					System.out.println(i + " " + j + " " + id);
 				//name = name of picture
-                                try { 
-				g.drawImage(ImageIO.read(getClass().getResourceAsStream("/images/" + name + ".png")),slotSize*i,slotSize*j,this);
-                                } catch(IOException exc) { 
-					exc.printStackTrace();
-			}
-				repaint();
-                                if(game.getGrid().getGridSlot(i,j) instanceof Mountain){
-                                        
-					g.drawImage(((Mountain)(game.getGrid().getGridSlot(i,j))).towerImage, game.getGrid().getGridSlotSize()*i, game.getGrid().getGridSlotSize()*j, this);
-					repaint();
-				}
+				 */
+                name += id;
+                try {
+                    g.drawImage(ImageIO.read(getClass().getResourceAsStream("/images/" + name + ".png")), slotSize * i, slotSize * j, this);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+                repaint();
+                if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
+                    g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).towerImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
+                    repaint();
                 }
             }
         }
-	//ALSO DRAWS ON HIT EFFECTS
-	private void drawEnemies(Graphics g){
-		for(int i=0; i<game.getEnemyManager().enemyList.size(); i++){
-			//DRAW ENEMIES & SIDEPATH
-			if (game.getEnemyManager().enemyList.get(i) instanceof AirEnemy) {
-				if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
-					g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX()-30, game.getEnemyManager().enemyList.get(i).getLocY(),this);
-				g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
-			}
-			else {
-				g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
-				if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
-					g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(),this);
-			}
-			//DRAW HEALTHBAR
-			g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth,game.getEnemyManager().enemyList.get(i).getLocX()-15,game.getEnemyManager().enemyList.get(i).getLocY()-12, this);
-			//DRAW SIDEPATH
+    }
 
-			//DRAW EFFECTS
-			
-			if(game.getEnemyManager().enemyList.get(i).isGettingHit())
-			{
-                            g.drawImage(game.getEnemyManager().enemyList.get(i).hitEffectImage,game.getEnemyManager().enemyList.get(i).getLocX(),game.getEnemyManager().enemyList.get(i).getLocY(), this);
-			}
-			repaint();
-		}
-	}
-	//
-	private void drawGraveyard(Graphics g){
-		for(int i = 0; i < game.getGraveyard().size();i++){
-			g.drawImage(game.getGraveyard().get(i).enemyImage,game.getGraveyard().get(i).getLocX(),game.getGraveyard().get(i).getLocY(),this);
-			repaint();
-		}
-	}
-	//
-	private void drawProjectiles(Graphics g)
-	{
-		for(int i=0; i<game.getTowerManager().towerCount; i++)
-		{
-			for(int j = 0; j < game.getTowerManager().towerList.get(i).getProjectileCount(); j++)
-			{
-				if(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY() < 580
-						&& game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j) != null)
-				{ 
-					if(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).isAlive == false)
-						game.getTowerManager().towerList.get(i).getProjectilesSpawned().remove(j);
-					else
-					{
-						g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
-								game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
-								game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
-								this);
-								repaint();
-					}	
-				}
-			}	
-		}
-	}
-	private void drawLayoutElements(Graphics g){
-		
-		if(game.getIsGameWon()){
-			g.drawImage(gameWonImage,300,300,this);
-		}
-		if(game.getIsGameLost()){
-			g.drawImage(gameLostImage,300,300,this);
-		}
-		
-		g.drawImage(layoutBackground,0,576,this);		
-		g.drawImage(timeImage,170,590,this);
-		g.drawString(game.getTime(),202,610);
-		g.drawImage(resourceImage,270,590,this);
-		g.drawString(game.getPlayerGold()+"",302,610);
-		g.drawImage(waveImage,370,587,this);
-		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/4" ,410,610); // will be updated
-		g.drawImage(lifeImage,470,590,this);
-		g.drawString(game.getRemainingChances()+"/5",502,610);
-		repaint();
+    //ALSO DRAWS ON HIT EFFECTS
+    private void drawEnemies(Graphics g) {
+        for (int i = 0; i < game.getEnemyManager().enemyList.size(); i++) {
+            //DRAW ENEMIES
+            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+            //DRAW HEALTHBAR
+            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth, game.getEnemyManager().enemyList.get(i).getLocX() - 15, game.getEnemyManager().enemyList.get(i).getLocY() - 12, this);
+            //DRAW EFFECTS
+
+            if (game.getEnemyManager().enemyList.get(i).isGettingHit()) {
+                g.drawImage(game.getEnemyManager().enemyList.get(i).hitEffectImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+            }
+            repaint();
         }
+    }
+
+    //
+    private void drawGraveyard(Graphics g) {
+        for (int i = 0; i < game.getGraveyard().size(); i++) {
+            g.drawImage(game.getGraveyard().get(i).enemyImage, game.getGraveyard().get(i).getLocX(), game.getGraveyard().get(i).getLocY(), this);
+            repaint();
+        }
+    }
+
+    //
+    private void drawProjectiles(Graphics g) {
+        for (int i = 0; i < game.getTowerManager().towerCount; i++) {
+            for (int j = 0; j < game.getTowerManager().towerList.get(i).getProjectileCount(); j++) {
+                if (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY() < 580
+                        && game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j) != null) {
+                    if (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).isAlive == false)
+                        game.getTowerManager().towerList.get(i).getProjectilesSpawned().remove(j);
+                    else {
+                        g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
+                                game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
+                                game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
+                                this);
+                        repaint();
+                    }
+                }
+            }
+        }
+    }
+
+    private void drawLayoutElements(Graphics g) {
+        if (game.getIsGameWon()) {
+            g.drawImage(gameWonImage, 300, 300, this);
+        }
+        if (game.getIsGameLost()) {
+            g.drawImage(gameLostImage, 300, 300, this);
+        }
+
+        g.drawImage(layoutBackground, 0, 536, this);
+        g.drawImage(timeImage, 170, 543, this);
+        g.drawString(game.getTime(), 202, 558);
+        g.drawImage(resourceImage, 312, 543, this);
+        g.drawString(game.getPlayerGold() + "", 342, 558);
+        g.drawImage(waveImage, 452, 543, this);
+        g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" + "/4", 484, 558); // will be updated
+        g.drawImage(lifeImage, 394, 543, this);
+        g.drawString(game.getRemainingChances() + "/5", 426, 558);
+        repaint();
+    }
 }
 
