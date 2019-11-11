@@ -1,9 +1,12 @@
 package GameTile;
 
 public class SniperTower extends Tower {
-    public SniperTower(){
+    public SniperTower() {
         super();
         setImage("/images/towerDefense_SniperTower");
+        for (int i=0;  i < 4; i++){
+            projectilesImageBuffer[i]="/images/towerDefense_tile272";
+        }
         setCost(400);
         setDamage(70);
         setTowerRange(200);
