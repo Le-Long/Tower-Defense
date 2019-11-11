@@ -50,7 +50,7 @@ public class Bullet extends GameEntity{
 	
 	public void dealDamage(){
             //if (shootAir && target instanceof AirEnemy)
-		target.onDamageTaken(damage,onHitEffectFramerate, projectileEffectBuffer, projectileSequenceStartNumber);
+		target.onDamageTaken(damage);
 	}
 	
 //<<<<<<< HEAD

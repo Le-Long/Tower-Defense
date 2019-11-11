@@ -111,11 +111,11 @@ public class GameField extends JPanel {
         //DRAW GRIDS AND TOWERS
         drawGridsAndTowers(g);
         //DRAW ENEMIES
-        //drawEnemies(g);
+        drawEnemies(g);
         //DRAW GRAVEYARD
         //drawGraveyard(g);
         //DRAW PROJECTILES
-        //drawProjectiles(g);
+        drawProjectiles(g);
         //DRAW SHOP
         game.getShop().draw(g);
         //DRAW LAYOUT ELEMENTS
