@@ -75,7 +75,7 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void spawnProjectile(Enemy target) {
-        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType);
+        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType, attackSpeed);
 		/*Duy's coding part
 		if (target.locY >= locY){
 			try {
