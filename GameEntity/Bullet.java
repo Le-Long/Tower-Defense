@@ -15,10 +15,8 @@ import javax.imageio.ImageIO;
 public class Bullet extends GameEntity{
 	private int speed;
 	private int damage;
-	private int damageType;
-	private int slowRate;
 	private int armorReduce;
-	private double timeTillHit;
+	private double timeTillDie;
     
         private int onHitEffectFramerate;
 	private int projectileFramerate;
@@ -29,57 +27,48 @@ public class Bullet extends GameEntity{
 	private int targetLocX;
 	private int targetLocY;
 	public boolean isAlive = true;
+        private boolean shootAir = false;
 	
 	private String projectileEffectBuffer;
-	private int projectileSequenceStartNumber = 1;
+	private int projectileSequenceStartNumber = 295;
 	
-	public Bullet(int x, int y, Enemy target, int damage, int projectileType){
-		
+	public Bullet(int x, int y, Enemy target, int damage, int projectileType, int speed){
+		this.speed = speed;
 		setProjectileProperties(projectileType);
-		timeTillHit = 20;
+		timeTillDie = 20;
 		this.damage = damage;
-		slowRate = 0;
 		armorReduce = 0;
 		speed = 10;
 		this.locX = x;
 		this.locY = y;
 		this.target = target;
-		
+		projectileEffectBuffer = "/images/towerDefense_tile";
 		targetLocX = target.locX;
 		targetLocY =  target.locY;
 	}
 	
 	
 	public void dealDamage(){
+            //if (shootAir && target instanceof AirEnemy)
 		target.onDamageTaken(damage,onHitEffectFramerate, projectileEffectBuffer, projectileSequenceStartNumber);
 	}
 	
 //<<<<<<< HEAD
 	public void setProjectileProperties(int projectileType)
 	{
+                setOnHitEffectFramerate(4);
 		if(projectileType==0)
 		{
-			projectileEffectBuffer = "/Sequences/64x48/explosion1_00";
-			setOnHitEffectFramerate(89);
-			projectileSequenceStartNumber = 1;
+			//hit on ground enemy
 		}
 		else if(projectileType==1)
 		{
-			projectileEffectBuffer = "/Sequences/Smokes/PNG/BlackSmoke/blackSmoke";
-			setOnHitEffectFramerate(23);
-			projectileSequenceStartNumber = 0;
+			//hit on air enemy
 		}
 		else if(projectileType==2)
 		{
-			projectileEffectBuffer = "/Sequences/Smokes/PNG/White puff/whitePuff";
-			setOnHitEffectFramerate(23);
-			projectileSequenceStartNumber = 0;
-		}
-		else if(projectileType==3)
-		{
-			projectileEffectBuffer = "/Sequences/Smokes/PNG/Light/00";
-			setOnHitEffectFramerate(50);
-			projectileSequenceStartNumber = 1;
+			collision();	
+			//hit on both
 		}
 	}
 	
@@ -92,8 +81,7 @@ public class Bullet extends GameEntity{
 	{
 		this.onHitEffectFramerate = onHitEffectFramerate;
 	}
-//=======
-//>>>>>>> 3def7e5873632a85ae08f2c372e81c5a069c17ab
+
 	
 	public void update(){
 		if(target==null)
@@ -106,26 +94,23 @@ public class Bullet extends GameEntity{
 		dx = dx/dist;
 		dy = dy/dist;
 		if(Math.abs(targetLocX - this.getLocX()) < 15 && Math.abs(targetLocY - this.getLocY()) < 15 ) {
-			collision();	
 			dealDamage();
 			isAlive = false;
 			return;
 		}
 		else {
-				locX = (int) (dx*timeTillHit + locX);
-				locY = (int) (dy*timeTillHit + locY);
+				locX = (int) (dx*timeTillDie + locX);
+				locY = (int) (dy*timeTillDie + locY);
 		}
 	}
 
 	public void collision(){
 		//if x and y is equal to the enemy's x y // enemy's healt/armor etc is reduced
-		//onHitDebuff();
+		onHitDebuff();
 	}
 
 	public void onHitDebuff(){
-		this.target.setSpeed(this.target.getSpeed() - this.slowRate); //updating target's speed
 		this.target.setArmor(this.target.getArmor() - this.armorReduce); //updating target's armor
-		// damage koy
 	}
 	
 	/////Getters
@@ -137,12 +122,6 @@ public class Bullet extends GameEntity{
 	}
 	public int getDamage(){
 		return this.damage;
-	}
-	public int getDamageType(){
-		return this.damageType;
-	}
-	public int getSlowRate(){
-		return this.slowRate;
 	}
 	public int getArmorReduce(){
 		return this.armorReduce;
