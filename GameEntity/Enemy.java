@@ -198,21 +198,21 @@ public class Enemy extends GameEntity{
 		}
 
 	
-		public void onDamageTaken(int dmg, int onHitEffectFramerate, String hitEffectCode, int hitEffectNumber)
+		public void onDamageTaken(int dmg)
 		{
 			if(!isAlive)
 				return;
 		
 			health = health - dmg;
 		
-			isGettingHit=true;
+/*			isGettingHit=true;
 			hitEffectNumber=1;
 			this.hitEffectCode = hitEffectCode;
 			this.hitEffectNumber = hitEffectNumber;
 			this.hitEffectSize = onHitEffectFramerate;
 		
 			if(!isPlayingHitAnimation)
-				playEffectAnimation(onHitEffectFramerate);
+				playEffectAnimation(onHitEffectFramerate);*/
 
 		
 		
