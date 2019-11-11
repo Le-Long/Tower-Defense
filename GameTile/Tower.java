@@ -5,20 +5,24 @@
  */
 package GameTile;
 
-import java.util.*;
-import javax.imageio.ImageIO;
-import javax.swing.Timer;
+import GameEntity.Bullet;
+import GameEntity.Enemy;
+import GameEntity.GameEntity;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-//import sun.audio.AudioStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 
-import GameEntity.*;
+//import sun.audio.AudioStream;
 
 /**
  * @author TA
  */
 public class Tower extends GameEntity implements GameTile {
+    public InputStream shootBuffer;
+    protected String[] projectilesImageBuffer;
     private int towerRange;
     private int attackSpeed;
     private int dmg;
@@ -26,12 +30,9 @@ public class Tower extends GameEntity implements GameTile {
     private ArrayList<Bullet> projectilesSpawned;
     private String towerImageFile;
     private Timer myTimer;
-    protected String[] projectilesImageBuffer;
     private boolean hasTarget;
     private int cost;
     private int projectileType;
-
-    public InputStream shootBuffer;
     //public AudioStream shootSound;
 
     public Tower() {
@@ -40,12 +41,6 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void playTowerShoot() {
-    }
-
-    public void setTarget(Enemy target) {
-        this.target = target;
-        hasTarget = true;
-        activateTower();
     }
 
     public void clearTarget() {
@@ -75,7 +70,7 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void spawnProjectile(Enemy target) {
-        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType, attackSpeed);
+        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType);
 		/*Duy's coding part
 		if (target.locY >= locY){
 			try {
@@ -119,35 +114,6 @@ public class Tower extends GameEntity implements GameTile {
         setTowerRange(towerRange + 2);
     }
 
-    //Setters
-    public void setImage(String input) {
-        towerImageFile = input;
-    }
-
-    public void setDamage(int dmg) {
-        this.dmg = dmg;
-    }
-
-    public void setLocX(int x) {
-        locX = x;
-    }
-
-    public void setLocY(int y) {
-        locY = y;
-    }
-
-    public void setTowerRange(int range) {
-        towerRange = range;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public void setAttackSpeed(int speed) {
-        attackSpeed = speed;
-    }
-
     public void setHasTarget(boolean hasTarget) {
         this.hasTarget = hasTarget;
     }
@@ -173,31 +139,66 @@ public class Tower extends GameEntity implements GameTile {
         return towerImageFile;
     }
 
+    public void setImage(String input) {
+        towerImageFile = input;
+    }
+
     public int getDamage() {
         return dmg;
+    }
+
+    public void setDamage(int dmg) {
+        this.dmg = dmg;
     }
 
     public int getLocX() {
         return locX;
     }
 
-    public Enemy getTarget() {
-        return target;
+    //Setters
+    public void setLocX(int x) {
+        locX = x;
     }
 
     public int getLocY() {
         return locY;
     }
 
+    public void setLocY(int y) {
+        locY = y;
+    }
+
+    public Enemy getTarget() {
+        return target;
+    }
+
+    public void setTarget(Enemy target) {
+        this.target = target;
+        hasTarget = true;
+        activateTower();
+    }
+
     public int getTowerRange() {
         return towerRange;
+    }
+
+    public void setTowerRange(int range) {
+        towerRange = range;
     }
 
     public int getCost() {
         return cost;
     }
 
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     public int getAttackSpeed() {
         return attackSpeed;
+    }
+
+    public void setAttackSpeed(int speed) {
+        attackSpeed = speed;
     }
 }
