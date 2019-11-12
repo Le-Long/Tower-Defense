@@ -112,7 +112,7 @@ public class GameManager {
 	//UPDATE TIME
 	private void updateTime(){
 		frameRate++;
-		if(frameRate%10 == 0){
+		if(frameRate%5 == 0){
 			second++;
 			if(second>59){
 				minute++;
@@ -369,7 +369,7 @@ public class GameManager {
 					return;
 			b = ((Mountain) grid.getGridSlot(gridNoX,gridNoY)).mouseHitThisSlot(shop.getTowerBought(), shop.getTowerToPlace(), gridNoX*grid.getGridHeight(), gridNoY*grid.getGridWidth());
 			if(shop.getTowerToPlace() != null){
-				if(b && playerGold > shop.getTowerToPlace().getCost())
+				if(b && playerGold >= shop.getTowerToPlace().getCost())
 				{
 					towerManager.addTower(shop.getTowerToPlace());
 					shop.getTowerToPlace().setLocX(gridNoX * 64 + 32);
