@@ -136,26 +136,19 @@ public class GameField extends JPanel {
 
     private void drawTowers(Graphics g) {
         for (int i = 0; i < game.getTowerManager().towerList.size(); i++) {
-            BufferedImage towerLayoutImage = null;
-            BufferedImage towerTurretImage = null;
-            try {
-                towerLayoutImage = ImageIO.read(getClass().getResourceAsStream(game.getTowerManager().towerList.get(i).getImage()));
-                towerTurretImage = ImageIO.read(getClass().getResourceAsStream(game.getTowerManager().towerList.get(i).getTowerTurretImageFile()));
-            } catch(IOException exc) {
-                exc.printStackTrace();
-            }
-            g.drawImage(towerLayoutImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+            g.drawImage(game.getTowerManager().towerList.get(i).getImage(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
             if (game.getTowerManager().towerList.get(i).hasTarget()) {
                 double rad = Math.atan2(game.getTowerManager().towerList.get(i).getTarget().getLocY() - (game.getTowerManager().towerList.get(i).getLocY() + 32), game.getTowerManager().towerList.get(i).getTarget().getLocX() - (game.getTowerManager().towerList.get(i).getLocX() + 32));
                 Graphics2D g2d = (Graphics2D) g.create();
                 AffineTransform backup = g2d.getTransform();
                 AffineTransform a = AffineTransform.getRotateInstance(rad, game.getTowerManager().towerList.get(i).getLocX() + 32, game.getTowerManager().towerList.get(i).getLocY() + 32);
                 g2d.setTransform(a);
-                g2d.drawImage(towerTurretImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+                g2d.drawImage(game.getTowerManager().towerList.get(i).getTowerTurretImageFile(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
             }
-            else g.drawImage(towerTurretImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+            else g.drawImage(game.getTowerManager().towerList.get(i).getTowerTurretImageFile(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
         }
     }
+    
     private void drawGridsAndTowers(Graphics g) {
         //Duy's coding part
         int width = game.getGrid().getGridWidth();
