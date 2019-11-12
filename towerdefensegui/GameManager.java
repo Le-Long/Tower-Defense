@@ -156,22 +156,23 @@ public class GameManager {
 		if(enemyManager.enemyCount != 0){
 			for(int i=0; i<enemyManager.enemyList.size(); i++)
 			{	
-				if(enemyManager.enemyList.get(i).getVelocity()[0] == 0 && enemyManager.enemyList.get(i).getVelocity()[1] == enemyManager.enemyList.get(i).getSpeed()){
-					enemyManager.enemyList.get(i).setEnemyImage(2);
+				if(enemyManager.enemyList.get(i).getVelocity()[0] == -enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0){
+					enemyManager.enemyList.get(i).setEnemyImage(0);
 					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(2);
 				}
 				else if(enemyManager.enemyList.get(i).getVelocity()[0] == enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0){
 					enemyManager.enemyList.get(i).setEnemyImage(3);
 					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(3);
 				}
-				else if(enemyManager.enemyList.get(i).getVelocity()[0] == 0&& enemyManager.enemyList.get(i).getVelocity()[1] == -enemyManager.enemyList.get(i).getSpeed()){
+				else if(enemyManager.enemyList.get(i).getVelocity()[0] == 0 && enemyManager.enemyList.get(i).getVelocity()[1] == -enemyManager.enemyList.get(i).getSpeed()){
  					enemyManager.enemyList.get(i).setEnemyImage(1);
 					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(1);
 				}
 				else {
-					enemyManager.enemyList.get(i).setEnemyImage(0);
+					enemyManager.enemyList.get(i).setEnemyImage(2);
 					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(0);
 				}
+
 			}
 		}
 		for(int i=0; i<enemyManager.enemyList.size(); i++)
