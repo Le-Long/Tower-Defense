@@ -33,12 +33,9 @@ public class Mountain implements GameTile{
 				towerInThisSlot.setLocX(x);
 				towerInThisSlot.setLocY(y);
 				hasTower=true;
-				try {
-					towerImage = ImageIO.read(getClass().getResourceAsStream(towerToPlace.getImage()));
-					turretImage = ImageIO.read(getClass().getResourceAsStream(towerToPlace.getTowerTurretImageFile()));
-				}	catch(IOException exc) {
-						exc.printStackTrace();
-				}
+				towerImage = towerToPlace.getImage();
+				turretImage = towerToPlace.getTowerTurretImageFile();
+				
 			}
 		}
 		return true;
