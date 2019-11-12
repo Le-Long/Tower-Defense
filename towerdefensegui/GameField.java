@@ -25,6 +25,8 @@ import GameTile.*;
  */
 public class GameField extends JPanel {
     private GameManager game;
+    private BufferedImage roadImage;
+    private BufferedImage mountainImage;
     private String timeImageBuffer;
     private String resourceImageBuffer;
     private BufferedImage timeImage;
@@ -101,14 +103,22 @@ public class GameField extends JPanel {
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
+        String name = "towerDefense_tile";
+        
+        try {
+                roadImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "093" + ".png"));
+                mountainImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "024" + ".png"));
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
     }
 
     //////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////PAINT OBJECTS//////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        //DRAW GRIDS AND TOWERS
+        
+        //DRAW GRIDS AND TOWERS 
         drawGridsAndTowers(g);
         //DRAW ENEMIES
         drawEnemies(g);
@@ -120,6 +130,7 @@ public class GameField extends JPanel {
         game.getShop().draw(g);
         //DRAW LAYOUT ELEMENTS
         drawLayoutElements(g);
+        repaint();
     }
 
     private void drawGridsAndTowers(Graphics g) {
@@ -129,13 +140,12 @@ public class GameField extends JPanel {
         int slotSize = game.getGrid().getGridSlotSize();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                String name = "towerDefense_tile";
-                String id = "024";
+                
                 GameTile cur = game.getGrid().getGridSlot(i, j);
                 if (cur instanceof Tower) continue;
 
                 if (cur instanceof Road) {
-                    id = "093";
+                    g.drawImage(roadImage, slotSize * i, slotSize * j, this);
                 }
 				/*
 				if (cur instanceof Mountain){
@@ -184,17 +194,13 @@ public class GameField extends JPanel {
 				if (ok)
 					System.out.println(i + " " + j + " " + id);
 				//name = name of picture
-				 */
-                name += id;
-                try {
-                    g.drawImage(ImageIO.read(getClass().getResourceAsStream("/images/" + name + ".png")), slotSize * i, slotSize * j, this);
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
-                repaint();
+				 
+                name += id;*/
+                else g.drawImage(mountainImage, slotSize * i, slotSize * j, this);
+                
                 if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
                     g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).towerImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
-                    repaint();
+                
                 }
             }
         }
@@ -212,7 +218,7 @@ public class GameField extends JPanel {
             if (game.getEnemyManager().enemyList.get(i).isGettingHit()) {
                 g.drawImage(game.getEnemyManager().enemyList.get(i).hitEffectImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
             }
-            repaint();
+
         }
     }
 
@@ -220,7 +226,7 @@ public class GameField extends JPanel {
     private void drawGraveyard(Graphics g) {
         for (int i = 0; i < game.getGraveyard().size(); i++) {
             g.drawImage(game.getGraveyard().get(i).enemyImage, game.getGraveyard().get(i).getLocX(), game.getGraveyard().get(i).getLocY(), this);
-            repaint();
+
         }
     }
 
@@ -237,7 +243,6 @@ public class GameField extends JPanel {
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
                                 this);
-                        repaint();
                     }
                 }
             }
@@ -262,7 +267,6 @@ public class GameField extends JPanel {
 		g.drawImage(lifeImage,470,590,this);
 		g.drawString(game.getRemainingChances()+"/5",502,610);
 
-        repaint();
     }
 }
 
