@@ -263,9 +263,9 @@ public class GameField extends JPanel {
 		g.drawImage(resourceImage,270,590,this);
 		g.drawString(game.getPlayerGold()+"",302,610);
 		g.drawImage(waveImage,370,587,this);
-		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +"/4" ,410,610); // will be updated
+		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +" / 4" ,410,610); // will be updated
 		g.drawImage(lifeImage,470,590,this);
-		g.drawString(game.getRemainingChances()+"/5",502,610);
+		g.drawString(game.getRemainingChances()+" / 10",502,610);
 
     }
 }
