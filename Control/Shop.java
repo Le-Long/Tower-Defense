@@ -186,9 +186,12 @@ public class Shop {
 		//g.drawImage(itemImage[1],60,576,null);
 		//g.drawImage(itemImage[1],120,576,null);
 		//g.drawImage(itemImage[3],180,576,null);
-		g.drawImage(itemImage[3],0,636,null);
+		//g.drawImage(itemImage[3],0,636,null);
 		g.drawImage(itemImage[0],60,636,null);
 		g.drawImage(itemImage[1],120,636,null);
 		g.drawImage(itemImage[2],180,636,null);
+                g.drawString("200",80, 636);
+                g.drawString("400",140, 636);
+                g.drawString("500",200, 636);
 	}
 }
