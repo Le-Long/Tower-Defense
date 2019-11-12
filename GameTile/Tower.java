@@ -29,8 +29,8 @@ public class Tower extends GameEntity implements GameTile {
     private int dmg;
     private Enemy target;
     private ArrayList<Bullet> projectilesSpawned;
-    private String towerImageFile;
-    private String towerTurretImageFile;
+    private BufferedImage towerImageFile;
+    private BufferedImage towerTurretImageFile;
     private Timer myTimer;
     private boolean hasTarget;
     private int cost;
@@ -137,17 +137,17 @@ public class Tower extends GameEntity implements GameTile {
         return hasTarget;
     }
 
-    public String getImage() {
+    public BufferedImage getImage() {
         return towerImageFile;
     }
 
-    public void setImage(String input) {
+    public void setImage(BufferedImage input) {
         towerImageFile = input;
     }
 
-    public String getTowerTurretImageFile() {return towerTurretImageFile;}
+    public BufferedImage getTowerTurretImageFile() {return towerTurretImageFile;}
 
-    public void setTowerTurretImageFile(String towerTurretImageFile) {this.towerTurretImageFile = towerTurretImageFile;}
+    public void setTowerTurretImageFile(BufferedImage towerTurretImageFile) {this.towerTurretImageFile = towerTurretImageFile;}
 
     public int getDamage() {
         return dmg;
