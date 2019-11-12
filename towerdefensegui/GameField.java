@@ -83,6 +83,14 @@ public class GameField extends JPanel {
         } catch (IOException exc) {
             exc.printStackTrace();
         }
+        String name = "towerDefense_tile";
+        
+        try {
+                roadImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "093" + ".png"));
+                mountainImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "024" + ".png"));
+        } catch (IOException exc) {
+                exc.printStackTrace();
+        }
         //////////////////////////
         game = new GameManager();
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -103,14 +111,7 @@ public class GameField extends JPanel {
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
-        String name = "towerDefense_tile";
         
-        try {
-                roadImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "093" + ".png"));
-                mountainImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "024" + ".png"));
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -238,7 +239,7 @@ public class GameField extends JPanel {
                         && game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j) != null) {
                     if (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).isAlive == false)
                         game.getTowerManager().towerList.get(i).getProjectilesSpawned().remove(j);
-                    else {
+                    else { 
                         g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
