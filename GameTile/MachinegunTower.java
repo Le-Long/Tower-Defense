@@ -1,11 +1,17 @@
 package GameTile;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class MachinegunTower extends Tower {
     public MachinegunTower() {
         super();
         setImage("/images/towerDefense_MachinegunTower.png");
-        for (int i=0;  i < 4; i++){
-            projectilesImageBuffer[i]="/images/towerDefense_tile272.png";
+        try {
+            projectilesImageBuffer = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile272.png"));
+        } catch (IOException exc) {
+            exc.printStackTrace();
         }
         setCost(500);
         setDamage(100);

@@ -12,6 +12,7 @@ import GameEntity.GameEntity;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class Tower extends GameEntity implements GameTile {
     public InputStream shootBuffer;
-    protected String[] projectilesImageBuffer;
+    protected BufferedImage projectilesImageBuffer;
     private int towerRange;
     private int attackSpeed;
     private int dmg;
@@ -36,11 +37,11 @@ public class Tower extends GameEntity implements GameTile {
     //public AudioStream shootSound;
 
     public Tower() {
-        projectilesImageBuffer = new String[4]; //0 down //1 up //2 right //3 left
         projectilesSpawned = new ArrayList<Bullet>();
     }
 
     public void playTowerShoot() {
+        //play shooting sound
     }
 
     public void clearTarget() {
@@ -70,7 +71,7 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void spawnProjectile(Enemy target) {
-        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType, attackSpeed);
+        Bullet spawnedProjectile = new Bullet(locX - 32, locY - 64, target, dmg, projectileType, projectilesImageBuffer);
 		/*Duy's coding part
 		if (target.locY >= locY){
 			try {

@@ -1,11 +1,17 @@
 package GameTile;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class SniperTower extends Tower {
     public SniperTower() {
         super();
         setImage("/images/towerDefense_SniperTower.png");
-        for (int i=0;  i < 4; i++){
-            projectilesImageBuffer[i]="/images/towerDefense_tile272.png";
+        try {
+            projectilesImageBuffer = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile272.png"));
+        } catch (IOException exc) {
+            exc.printStackTrace();
         }
         setCost(400);
         setDamage(70);
