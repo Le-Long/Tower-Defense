@@ -21,7 +21,7 @@ public class GameStage extends JFrame {
     static Dimension size = new Dimension(780,740);
         
     public GameStage(){
-        //music = new SoundManager();
+        music = new SoundManager();
         game = new GameField();
         add(game);
         init();
