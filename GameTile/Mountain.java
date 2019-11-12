@@ -15,8 +15,9 @@ import javax.imageio.ImageIO;
  */
 public class Mountain implements GameTile{
         private Tower towerInThisSlot;
-	public boolean hasTower;
+		public boolean hasTower;
         public BufferedImage towerImage;
+        public BufferedImage turretImage;
         
         public boolean mouseHitThisSlot(boolean isInBuyMode, Tower towerToPlace, int x, int y)
 	{
@@ -34,6 +35,7 @@ public class Mountain implements GameTile{
 				hasTower=true;
 				try {
 					towerImage = ImageIO.read(getClass().getResourceAsStream(towerToPlace.getImage()));
+					turretImage = ImageIO.read(getClass().getResourceAsStream(towerToPlace.getTowerTurretImageFile()));
 				}	catch(IOException exc) {
 						exc.printStackTrace();
 				}

@@ -30,6 +30,7 @@ public class Tower extends GameEntity implements GameTile {
     private Enemy target;
     private ArrayList<Bullet> projectilesSpawned;
     private String towerImageFile;
+    private String towerTurretImageFile;
     private Timer myTimer;
     private boolean hasTarget;
     private int cost;
@@ -71,7 +72,7 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void spawnProjectile(Enemy target) {
-        Bullet spawnedProjectile = new Bullet(locX - 32, locY - 64, target, dmg, projectileType, projectilesImageBuffer);
+        Bullet spawnedProjectile = new Bullet(locX, locY , target, dmg, projectileType, projectilesImageBuffer);
 		/*Duy's coding part
 		if (target.locY >= locY){
 			try {
@@ -143,6 +144,10 @@ public class Tower extends GameEntity implements GameTile {
     public void setImage(String input) {
         towerImageFile = input;
     }
+
+    public String getTowerTurretImageFile() {return towerTurretImageFile;}
+
+    public void setTowerTurretImageFile(String towerTurretImageFile) {this.towerTurretImageFile = towerTurretImageFile;}
 
     public int getDamage() {
         return dmg;
