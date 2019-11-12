@@ -32,19 +32,20 @@ public class Bullet extends GameEntity{
 	private String projectileEffectBuffer;
 	private int projectileSequenceStartNumber = 295;
 	
-	public Bullet(int x, int y, Enemy target, int damage, int projectileType, int speed){
-		this.speed = speed;
+	public Bullet(int x, int y, Enemy target, int damage, int projectileType, BufferedImage projectileImage){
+		this.projectileImage = projectileImage;
 		setProjectileProperties(projectileType);
 		timeTillDie = 20;
 		this.damage = damage;
 		armorReduce = 0;
-		speed = 10;
+		speed = 30;
 		this.locX = x;
 		this.locY = y;
 		this.target = target;
 		projectileEffectBuffer = "/images/towerDefense_tile";
 		targetLocX = target.locX;
 		targetLocY =  target.locY;
+                
 	}
 	
 	
@@ -93,14 +94,15 @@ public class Bullet extends GameEntity{
 		double dist = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));
 		dx = dx/dist;
 		dy = dy/dist;
-		if(Math.abs(targetLocX - this.getLocX()) < 15 && Math.abs(targetLocY - this.getLocY()) < 15 ) {
+
+                if(Math.abs(target.locX - this.getLocX()) < 15 && Math.abs(target.locY - this.getLocY()) < 15 ) {
 			dealDamage();
 			isAlive = false;
 			return;
 		}
-		else {
-				locX = (int) (dx*timeTillDie + locX);
-				locY = (int) (dy*timeTillDie + locY);
+		else { 
+                        locX += (int) (dx*timeTillDie);
+                        locY += (int) (dy*timeTillDie);
 		}
 	}
 
