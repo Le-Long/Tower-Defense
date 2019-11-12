@@ -5,9 +5,7 @@
  */
 package towerdefensegui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -18,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import GameEntity.AirEnemy;
 import GameTile.*;
 
 /**
@@ -121,6 +120,7 @@ public class GameField extends JPanel {
         
         //DRAW GRIDS AND TOWERS 
         drawGridsAndTowers(g);
+        drawTowers(g);
         //DRAW ENEMIES
         drawEnemies(g);
         //DRAW GRAVEYARD
@@ -134,6 +134,28 @@ public class GameField extends JPanel {
         repaint();
     }
 
+    private void drawTowers(Graphics g) {
+        for (int i = 0; i < game.getTowerManager().towerList.size(); i++) {
+            BufferedImage towerLayoutImage = null;
+            BufferedImage towerTurretImage = null;
+            try {
+                towerLayoutImage = ImageIO.read(getClass().getResourceAsStream(game.getTowerManager().towerList.get(i).getImage()));
+                towerTurretImage = ImageIO.read(getClass().getResourceAsStream(game.getTowerManager().towerList.get(i).getTowerTurretImageFile()));
+            } catch(IOException exc) {
+                exc.printStackTrace();
+            }
+            g.drawImage(towerLayoutImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+            if (game.getTowerManager().towerList.get(i).hasTarget()) {
+                double rad = Math.atan2(game.getTowerManager().towerList.get(i).getTarget().getLocY() - (game.getTowerManager().towerList.get(i).getLocY() + 32), game.getTowerManager().towerList.get(i).getTarget().getLocX() - (game.getTowerManager().towerList.get(i).getLocX() + 32));
+                Graphics2D g2d = (Graphics2D) g.create();
+                AffineTransform backup = g2d.getTransform();
+                AffineTransform a = AffineTransform.getRotateInstance(rad, game.getTowerManager().towerList.get(i).getLocX() + 32, game.getTowerManager().towerList.get(i).getLocY() + 32);
+                g2d.setTransform(a);
+                g2d.drawImage(towerTurretImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+            }
+            else g.drawImage(towerTurretImage, game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+        }
+    }
     private void drawGridsAndTowers(Graphics g) {
         //Duy's coding part
         int width = game.getGrid().getGridWidth();
@@ -143,7 +165,10 @@ public class GameField extends JPanel {
             for (int j = 0; j < height; j++) {
                 
                 GameTile cur = game.getGrid().getGridSlot(i, j);
-                if (cur instanceof Tower) continue;
+                if (cur instanceof Tower) {
+                    System.out.println(1);
+                    continue;
+                }
 
                 if (cur instanceof Road) {
                     g.drawImage(roadImage, slotSize * i, slotSize * j, this);
@@ -201,24 +226,28 @@ public class GameField extends JPanel {
                 
                 if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
                     g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).towerImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
-                
+                    g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).turretImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
+
                 }
             }
         }
     }
 
-    //ALSO DRAWS ON HIT EFFECTS
     private void drawEnemies(Graphics g) {
         for (int i = 0; i < game.getEnemyManager().enemyList.size(); i++) {
-            //DRAW ENEMIES
-            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
-            //DRAW HEALTHBAR
-            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth, game.getEnemyManager().enemyList.get(i).getLocX() - 15, game.getEnemyManager().enemyList.get(i).getLocY() - 12, this);
-            //DRAW EFFECTS
-
-            if (game.getEnemyManager().enemyList.get(i).isGettingHit()) {
-                g.drawImage(game.getEnemyManager().enemyList.get(i).hitEffectImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+            //DRAW ENEMIES & SIDEPATH
+            if (game.getEnemyManager().enemyList.get(i) instanceof AirEnemy) {
+                if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
+                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX()-30, game.getEnemyManager().enemyList.get(i).getLocY(),this);
+                g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
             }
+            else {
+                g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
+                if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
+                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(),this);
+            }
+            //DRAW HEALTHBAR
+            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth,game.getEnemyManager().enemyList.get(i).getLocX()-15,game.getEnemyManager().enemyList.get(i).getLocY()-12, this);
 
         }
     }

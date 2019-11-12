@@ -7,7 +7,8 @@ import javax.imageio.ImageIO;
 public class NormalTower extends Tower {
     public NormalTower() {
         super();
-        setImage("/images/towerDefense_NormalTower.png");
+        setImage("/images/towerDefense_tile180.png");
+        setTowerTurretImageFile("/images/towerDefense_tile249.png");
         try {
             projectilesImageBuffer = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile272.png"));
         } catch (IOException exc) {

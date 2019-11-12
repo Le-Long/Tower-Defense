@@ -293,6 +293,7 @@ public class GameManager {
 						{
 							testNumber++;
 							towerManager.towerList.get(i).setTarget(enemyManager.enemyList.get(j));
+
 							j = enemyManager.enemyList.size();					
 						}
 
@@ -372,8 +373,8 @@ public class GameManager {
 				if(b && playerGold >= shop.getTowerToPlace().getCost())
 				{
 					towerManager.addTower(shop.getTowerToPlace());
-					shop.getTowerToPlace().setLocX(gridNoX * 64 + 32);
-					shop.getTowerToPlace().setLocY(gridNoY * 64 + 32);
+					shop.getTowerToPlace().setLocX(gridNoX * 64);
+					shop.getTowerToPlace().setLocY(gridNoY * 64);
 					shop.setTowerBought(false);
 					control.setMouseX(0);
 					control.setMouseY(0);
