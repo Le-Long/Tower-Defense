@@ -1,8 +1,7 @@
 package GameTile;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import java.io.IOException;
 
 public class MachinegunTower extends Tower {
     public MachinegunTower() {
@@ -15,9 +14,9 @@ public class MachinegunTower extends Tower {
             exc.printStackTrace();
         }
         setCost(500);
-        setDamage(100);
-        setTowerRange(120);
-        setAttackSpeed(25);
+        setDamage(80);
+        setTowerRange(160);
+        setAttackSpeed(3);
         setProjectileType(2);
     }
 }

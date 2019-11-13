@@ -1,8 +1,7 @@
 package GameTile;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import java.io.IOException;
 
 public class SniperTower extends Tower {
     public SniperTower() {
@@ -17,7 +16,7 @@ public class SniperTower extends Tower {
         setCost(400);
         setDamage(70);
         setTowerRange(200);
-        setAttackSpeed(25);
+        setAttackSpeed(2);
         setProjectileType(1);
     }
 }

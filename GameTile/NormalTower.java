@@ -1,8 +1,7 @@
 package GameTile;
 
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import java.io.IOException;
 
 public class NormalTower extends Tower {
     public NormalTower() {
@@ -17,7 +16,7 @@ public class NormalTower extends Tower {
         setCost(200);
         setDamage(100);
         setTowerRange(150);
-        setAttackSpeed(25);
+        setAttackSpeed(2);
         setProjectileType(0);
     }
 }

@@ -6,23 +6,22 @@
 package GameTile;
 
 /**
- *
  * @author TA
  */
-public class Spawner extends Road{
-    	private int enemySpawnLocX;
-		private int enemySpawnLocY;
-        
-        public Spawner() {
-            	enemySpawnLocX = 76;
-				enemySpawnLocY = 0;
-        }
+public class Spawner extends Road {
+    private int enemySpawnLocX;
+    private int enemySpawnLocY;
 
-	public int getEnemySpawnLocX() {
-		return enemySpawnLocX;
-	}
+    public Spawner() {
+        enemySpawnLocX = 76;
+        enemySpawnLocY = 0;
+    }
 
-	public int getEnemySpawnLocY() {
-		return enemySpawnLocY;
-	}
+    public int getEnemySpawnLocX() {
+        return enemySpawnLocX;
+    }
+
+    public int getEnemySpawnLocY() {
+        return enemySpawnLocY;
+    }
 }
