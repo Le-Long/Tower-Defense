@@ -5,19 +5,18 @@
  */
 package towerdefensegui;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import GameEntity.AirEnemy;
+import GameTile.GameTile;
+import GameTile.Mountain;
+import GameTile.Road;
+import GameTile.Tower;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import GameEntity.AirEnemy;
-import GameTile.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * @author TA
@@ -83,12 +82,12 @@ public class GameField extends JPanel {
             exc.printStackTrace();
         }
         String name = "towerDefense_tile";
-        
+
         try {
-                roadImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "093" + ".png"));
-                mountainImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "024" + ".png"));
+            roadImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "093" + ".png"));
+            mountainImage = ImageIO.read(getClass().getResourceAsStream("/images/" + name + "024" + ".png"));
         } catch (IOException exc) {
-                exc.printStackTrace();
+            exc.printStackTrace();
         }
         //////////////////////////
         game = new GameManager();
@@ -110,14 +109,14 @@ public class GameField extends JPanel {
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
-        
+
     }
 
     //////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////PAINT OBJECTS//////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
     public void paintComponent(Graphics g) {
-        
+
         //DRAW GRIDS AND TOWERS 
         drawGridsAndTowers(g);
         drawTowers(g);
@@ -138,17 +137,17 @@ public class GameField extends JPanel {
         for (int i = 0; i < game.getTowerManager().towerList.size(); i++) {
             g.drawImage(game.getTowerManager().towerList.get(i).getImage(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
             if (game.getTowerManager().towerList.get(i).hasTarget()) {
-                double rad = Math.atan2(game.getTowerManager().towerList.get(i).getTarget().getLocY() - (game.getTowerManager().towerList.get(i).getLocY() + 32), game.getTowerManager().towerList.get(i).getTarget().getLocX() - (game.getTowerManager().towerList.get(i).getLocX() + 32));
+                double rad = Math.atan2(game.getTowerManager().towerList.get(i).getTarget().getLocY() + 32 - (game.getTowerManager().towerList.get(i).getLocY() + 32), game.getTowerManager().towerList.get(i).getTarget().getLocX() + 32 - (game.getTowerManager().towerList.get(i).getLocX() + 32));
                 Graphics2D g2d = (Graphics2D) g.create();
                 AffineTransform backup = g2d.getTransform();
                 AffineTransform a = AffineTransform.getRotateInstance(rad, game.getTowerManager().towerList.get(i).getLocX() + 32, game.getTowerManager().towerList.get(i).getLocY() + 32);
                 g2d.setTransform(a);
                 g2d.drawImage(game.getTowerManager().towerList.get(i).getTowerTurretImageFile(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
-            }
-            else g.drawImage(game.getTowerManager().towerList.get(i).getTowerTurretImageFile(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
+            } else
+                g.drawImage(game.getTowerManager().towerList.get(i).getTowerTurretImageFile(), game.getTowerManager().towerList.get(i).getLocX(), game.getTowerManager().towerList.get(i).getLocY(), this);
         }
     }
-    
+
     private void drawGridsAndTowers(Graphics g) {
         //Duy's coding part
         int width = game.getGrid().getGridWidth();
@@ -156,7 +155,6 @@ public class GameField extends JPanel {
         int slotSize = game.getGrid().getGridSlotSize();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                
                 GameTile cur = game.getGrid().getGridSlot(i, j);
                 if (cur instanceof Tower) {
                     System.out.println(1);
@@ -216,7 +214,7 @@ public class GameField extends JPanel {
 				 
                 name += id;*/
                 else g.drawImage(mountainImage, slotSize * i, slotSize * j, this);
-                
+
                 if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
                     g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).towerImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
                     g.drawImage(((Mountain) (game.getGrid().getGridSlot(i, j))).turretImage, game.getGrid().getGridSlotSize() * i, game.getGrid().getGridSlotSize() * j, this);
@@ -231,29 +229,19 @@ public class GameField extends JPanel {
             //DRAW ENEMIES & SIDEPATH
             if (game.getEnemyManager().enemyList.get(i) instanceof AirEnemy) {
                 if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
-                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX()-30, game.getEnemyManager().enemyList.get(i).getLocY(),this);
+                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX() - 30, game.getEnemyManager().enemyList.get(i).getLocY(), this);
                 g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
-            }
-            else {
+            } else {
                 g.drawImage(game.getEnemyManager().enemyList.get(i).enemyImage, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
                 if (game.getEnemyManager().enemyList.get(i).isHasSidePath())
-                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(),this);
+                    g.drawImage(game.getEnemyManager().enemyList.get(i).enemySidePath, game.getEnemyManager().enemyList.get(i).getLocX(), game.getEnemyManager().enemyList.get(i).getLocY(), this);
             }
             //DRAW HEALTHBAR
-            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth,game.getEnemyManager().enemyList.get(i).getLocX()-15,game.getEnemyManager().enemyList.get(i).getLocY()-12, this);
+            g.drawImage(game.getEnemyManager().enemyList.get(i).enemyHealth, game.getEnemyManager().enemyList.get(i).getLocX() - 15, game.getEnemyManager().enemyList.get(i).getLocY() - 12, this);
 
         }
     }
 
-    //
-    private void drawGraveyard(Graphics g) {
-        for (int i = 0; i < game.getGraveyard().size(); i++) {
-            g.drawImage(game.getGraveyard().get(i).enemyImage, game.getGraveyard().get(i).getLocX(), game.getGraveyard().get(i).getLocY(), this);
-
-        }
-    }
-
-    //
     private void drawProjectiles(Graphics g) {
         for (int i = 0; i < game.getTowerManager().towerCount; i++) {
             for (int j = 0; j < game.getTowerManager().towerList.get(i).getProjectileCount(); j++) {
@@ -261,7 +249,7 @@ public class GameField extends JPanel {
                         && game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j) != null) {
                     if (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).isAlive == false)
                         game.getTowerManager().towerList.get(i).getProjectilesSpawned().remove(j);
-                    else { 
+                    else {
                         g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
@@ -279,17 +267,15 @@ public class GameField extends JPanel {
         if (game.getIsGameLost()) {
             g.drawImage(gameLostImage, 300, 300, this);
         }
-	    
-		g.drawImage(layoutBackground,0,576,this);		
-		g.drawImage(timeImage,170,590,this);
-		g.drawString(game.getTime(),202,610);
-		g.drawImage(resourceImage,270,590,this);
-		g.drawString(game.getPlayerGold()+"",302,610);
-		g.drawImage(waveImage,370,587,this);
-		g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" +" / 4" ,410,610); // will be updated
-		g.drawImage(lifeImage,470,590,this);
-		g.drawString(game.getRemainingChances()+" / 10",502,610);
 
+        g.drawImage(layoutBackground, 0, 576, this);
+        g.drawImage(timeImage, 170, 590, this);
+        g.drawString(game.getTime(), 202, 610);
+        g.drawImage(resourceImage, 270, 590, this);
+        g.drawString(game.getPlayerGold() + "", 302, 610);
+        g.drawImage(waveImage, 370, 587, this);
+        g.drawString((game.getEnemyManager().getWaveNo() + 1) + "" + " / 4", 410, 610); // will be updated
+        g.drawImage(lifeImage, 470, 590, this);
+        g.drawString(game.getRemainingChances() + " / 10", 502, 610);
     }
 }
-
