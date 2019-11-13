@@ -1,10 +1,10 @@
 package GameEntity;
 
-public class TankerEnemy extends Enemy{
+public class TankerEnemy extends Enemy {
 
     public TankerEnemy(int locX, int locY) {
         super(locX, locY);
-        setSpeed(8);
+        setSpeed(6);
         setArmor(20);
         setHealth(800);
         setMaxHealth(800);

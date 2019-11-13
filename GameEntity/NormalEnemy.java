@@ -1,13 +1,13 @@
 package GameEntity;
 
-public class NormalEnemy extends Enemy{
+public class NormalEnemy extends Enemy {
 
     public NormalEnemy(int locX, int locY) {
         super(locX, locY);
-        setSpeed(12);
+        setSpeed(8);
         setArmor(5);
-        setHealth(500);
-        setMaxHealth(500);
+        setHealth(250);
+        setMaxHealth(250);
         setResourceGiven(50);
         setHasSidePath(false);
 
