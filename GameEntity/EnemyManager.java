@@ -5,41 +5,44 @@
  */
 package GameEntity;
 
+import GameTile.Spawner;
+
 import java.util.ArrayList;
 
-import GameTile.*;
 /**
- *
  * @author TA
  */
 public class EnemyManager {
-	public ArrayList<Enemy> enemyList;
-	public int enemyCount = 0;
-	private int waveNo = 0;
-	Spawner starter = new Spawner();
+    public ArrayList<Enemy> enemyList;
+    public int enemyCount = 0;
+    Spawner starter = new Spawner();
+    private int waveNo = 0;
 
-	public EnemyManager(){
-		enemyList = new ArrayList<Enemy>();
-                starter = new Spawner();
-	}
+    public EnemyManager() {
+        enemyList = new ArrayList<Enemy>();
+        starter = new Spawner();
+    }
 
-	
-	public void initializeEnemies(){
-            //Truong's coding part
-		if (waveNo == 0) enemyList.add(new NormalEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
-		if (waveNo == 1) enemyList.add(new TankerEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
-		if (waveNo == 2) enemyList.add(new AirEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
-		if (waveNo == 3) enemyList.add(new BossEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
-		enemyCount++;
-	}
 
-	public void killEnemy(int index){
-		enemyList.remove(index);
-		enemyCount--;
-	}
+    public void initializeEnemies() {
+        //Truong's coding part
+        if (waveNo == 0) enemyList.add(new NormalEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+        if (waveNo == 1) enemyList.add(new TankerEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+        if (waveNo == 2) enemyList.add(new AirEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+        if (waveNo == 3) enemyList.add(new BossEnemy(starter.getEnemySpawnLocX(), starter.getEnemySpawnLocY()));
+        enemyCount++;
+    }
 
-	public void setWaveNo(int waveNo){this.waveNo = waveNo;}
-	public int getWaveNo(){
-		return waveNo;
-	}
+    public void killEnemy(int index) {
+        enemyList.remove(index);
+        enemyCount--;
+    }
+
+    public int getWaveNo() {
+        return waveNo;
+    }
+
+    public void setWaveNo(int waveNo) {
+        this.waveNo = waveNo;
+    }
 }

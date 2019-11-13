@@ -1,6 +1,6 @@
 package GameEntity;
 
-public class AirEnemy extends Enemy{
+public class AirEnemy extends Enemy {
 
     public AirEnemy(int locX, int locY) {
         super(locX, locY);

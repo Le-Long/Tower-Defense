@@ -4,10 +4,10 @@ public class BossEnemy extends Enemy {
 
     public BossEnemy(int locX, int locY) {
         super(locX, locY);
-        setSpeed(7);
+        setSpeed(3);
         setArmor(30);
-        setHealth(2000);
-        setMaxHealth(2000);
+        setHealth(4000);
+        setMaxHealth(4000);
         setResourceGiven(500);
         setHasSidePath(true);
 

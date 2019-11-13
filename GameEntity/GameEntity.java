@@ -6,10 +6,9 @@
 package GameEntity;
 
 /**
- *
  * @author TA
  */
 public abstract class GameEntity {
-    public int locX; 
+    public int locX;
     public int locY;
 }
