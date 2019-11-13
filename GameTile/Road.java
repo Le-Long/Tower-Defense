@@ -6,9 +6,8 @@
 package GameTile;
 
 /**
- *
  * @author TA
  */
-public class Road implements GameTile{
-    
+public class Road implements GameTile {
+
 }

@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * @author TA
  */
 public class Tower extends GameEntity implements GameTile {
-    public InputStream shootBuffer;
     protected BufferedImage projectilesImageBuffer;
     private int towerRange;
     private int attackSpeed;
@@ -52,7 +51,7 @@ public class Tower extends GameEntity implements GameTile {
 
     //Activating the listener
     public void activateTower() {
-        int delay = 750;//(1/attackSpeed)*500; // ~10 updates per second
+        int delay = (int) (1000.0/attackSpeed); // ~10 updates per second
 
         ActionListener taskPerformer = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +71,7 @@ public class Tower extends GameEntity implements GameTile {
     }
 
     public void spawnProjectile(Enemy target) {
-        Bullet spawnedProjectile = new Bullet(locX, locY , target, dmg, projectileType, projectilesImageBuffer);
+        Bullet spawnedProjectile = new Bullet(locX, locY, target, dmg, projectileType, projectilesImageBuffer);
 		/*Duy's coding part
 		if (target.locY >= locY){
 			try {
@@ -145,9 +144,13 @@ public class Tower extends GameEntity implements GameTile {
         towerImageFile = input;
     }
 
-    public BufferedImage getTowerTurretImageFile() {return towerTurretImageFile;}
+    public BufferedImage getTowerTurretImageFile() {
+        return towerTurretImageFile;
+    }
 
-    public void setTowerTurretImageFile(BufferedImage towerTurretImageFile) {this.towerTurretImageFile = towerTurretImageFile;}
+    public void setTowerTurretImageFile(BufferedImage towerTurretImageFile) {
+        this.towerTurretImageFile = towerTurretImageFile;
+    }
 
     public int getDamage() {
         return dmg;

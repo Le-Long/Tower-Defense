@@ -6,9 +6,8 @@
 package GameTile;
 
 /**
- *
  * @author TA
  */
 public interface GameTile {
-    
+
 }

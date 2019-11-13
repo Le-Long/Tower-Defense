@@ -6,9 +6,8 @@
 package GameTile;
 
 /**
- *
  * @author TA
  */
-public class Target extends Road{
-    
+public class Target extends Road {
+
 }
