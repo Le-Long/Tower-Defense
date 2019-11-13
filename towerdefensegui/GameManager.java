@@ -92,7 +92,7 @@ public class GameManager {
 				if(remainingChances < 1)
 					gameLost = true;
 				//Checking if game is won
-				if(enemyManager.getWaveNo() == 14 && enemyManager.enemyList.size() == 0)
+				if(enemyManager.getWaveNo() == 4 && enemyManager.enemyList.size() == 0)
 					gameWon = true;
 				if(gameLost || gameWon)
 					return;
@@ -158,7 +158,7 @@ public class GameManager {
 			{	
 				if(enemyManager.enemyList.get(i).getVelocity()[0] == -enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0){
 					enemyManager.enemyList.get(i).setEnemyImage(0);
-					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(2);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(0);
 				}
 				else if(enemyManager.enemyList.get(i).getVelocity()[0] == enemyManager.enemyList.get(i).getSpeed() && enemyManager.enemyList.get(i).getVelocity()[1] == 0){
 					enemyManager.enemyList.get(i).setEnemyImage(3);
@@ -170,7 +170,7 @@ public class GameManager {
 				}
 				else {
 					enemyManager.enemyList.get(i).setEnemyImage(2);
-					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(0);
+					if (enemyManager.enemyList.get(i).isHasSidePath()) enemyManager.enemyList.get(i).setEnemySidePathImage(2);
 				}
 
 			}
