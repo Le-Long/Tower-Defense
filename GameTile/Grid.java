@@ -8,7 +8,7 @@ package GameTile;
 /**
  * @author TA
  */
-public class Grid {
+public class Grid implements java.io.Serializable {
     private static final int gridHeight = 9;
     private static final int gridWidth = 13;
     private static final int gridSlotSize = 64;

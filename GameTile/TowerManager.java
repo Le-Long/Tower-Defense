@@ -10,13 +10,17 @@ import java.util.ArrayList;
 /**
  * @author TA
  */
-public class TowerManager {
+public class TowerManager implements java.io.Serializable {
     public ArrayList<Tower> towerList;
-
+    private static TowerManager INSTANCE = new TowerManager();
     public int towerCount = 0;
 
-    public TowerManager() {
+    private TowerManager() {
         towerList = new ArrayList<>();
+    }
+    
+    public static TowerManager getInstance() {
+        return INSTANCE;
     }
 
     public void addTower(Tower towerToAdd) {
