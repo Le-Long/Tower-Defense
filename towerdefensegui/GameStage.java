@@ -16,13 +16,40 @@ public class GameStage extends JFrame {
     static String title = "Tower Defense";
     // grid width 13 * 60 / grid height 9 * 60 + 200
     static Dimension size = new Dimension(780, 740);
+    MainMenu menu;
     GameField game;
+    Information instruct;
+    HighScore scoreboard;
     SoundManager music;
 
     public GameStage() {
         music = new SoundManager();
-        game = new GameField();
+        menu = new MainMenu();
+        add(menu);
+        init();
+        setVisible(true);
+        pack();
+    }
+    
+    public GameStage(GameField gamefield) {
+        this.game = gamefield;
         add(game);
+        init();
+        setVisible(true);
+        pack();
+    }
+    
+    public GameStage(Information instruction) {
+        this.instruct = instruction;
+        add(this.instruct);
+        init();
+        setVisible(true);
+        pack();
+    }
+    
+    public GameStage(HighScore score) {
+        this.scoreboard = score;
+        add(this.scoreboard);
         init();
         setVisible(true);
         pack();
