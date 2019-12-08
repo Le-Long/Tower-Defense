@@ -9,10 +9,12 @@ import GameEntity.Bullet;
 import GameEntity.Enemy;
 import GameEntity.GameEntity;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -34,10 +36,14 @@ public class Tower extends GameEntity implements GameTile {
     private boolean hasTarget;
     private int cost;
     private int projectileType;
+    public String[] upgradedPath;
+    public boolean upgraded;
     //public AudioStream shootSound;
 
     public Tower() {
         projectilesSpawned = new ArrayList<Bullet>();
+        upgradedPath = new String[2];
+        upgraded = false;
     }
 
     public void playTowerShoot() {
@@ -113,6 +119,12 @@ public class Tower extends GameEntity implements GameTile {
         setDamage(dmg + 20);
         setAttackSpeed(attackSpeed + 1);
         setTowerRange(towerRange + 2);
+        try {
+            setTowerTurretImageFile(ImageIO.read(getClass().getResourceAsStream(upgradedPath[0])));
+            setProjectilesImageBuffer(ImageIO.read(getClass().getResourceAsStream(upgradedPath[1])));
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
     }
 
     public void setHasTarget(boolean hasTarget) {
@@ -152,6 +164,9 @@ public class Tower extends GameEntity implements GameTile {
         this.towerTurretImageFile = towerTurretImageFile;
     }
 
+    public void setProjectilesImageBuffer(BufferedImage projectilesImageBuffer) {
+        this.projectilesImageBuffer = projectilesImageBuffer;
+    }
     public int getDamage() {
         return dmg;
     }
@@ -185,6 +200,14 @@ public class Tower extends GameEntity implements GameTile {
         this.target = target;
         hasTarget = true;
         activateTower();
+    }
+
+    public void setUpgraded(boolean upgraded) {
+        this.upgraded = upgraded;
+    }
+
+    public boolean isUpgraded() {
+        return upgraded;
     }
 
     public int getTowerRange() {

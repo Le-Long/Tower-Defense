@@ -121,11 +121,12 @@ public class GameField extends JPanel {
         drawGridsAndTowers(g);
         drawTowers(g);
         //DRAW ENEMIES
-        drawEnemies(g);
-        //DRAW GRAVEYARD
-        //drawGraveyard(g);
-        //DRAW PROJECTILES
         drawProjectiles(g);
+        drawEnemies(g);
+        //DRAW EXPLOSION
+        drawExplosion(g);
+        //DRAW PROJECTILES
+       // drawProjectiles(g);
         //DRAW SHOP
         game.getShop().draw(g);
         //DRAW LAYOUT ELEMENTS
@@ -164,55 +165,7 @@ public class GameField extends JPanel {
                 if (cur instanceof Road) {
                     g.drawImage(roadImage, slotSize * i, slotSize * j, this);
                 }
-				/*
-				if (cur instanceof Mountain){
-					boolean up=false;
-					if (i > 0){
-						up=(game.getGrid().getGridSlot(i-1,j) instanceof Road);
-					}
-					boolean down=false;
-					if (i < width-1){
-						down=(game.getGrid().getGridSlot(i+1,j) instanceof Road);
-					}
-					boolean right=false;
-					if (j > 0){
-						right=(game.getGrid().getGridSlot(i,j-1) instanceof Road);
-					}
-					boolean left=false;
-					if (j < height-1){
-						right=(game.getGrid().getGridSlot(i,j+1) instanceof Road);
-					}
-					if ((up)&&(!down)&&(!left)&&(!right)){
-						id="023";
-					}
-					if ((!up)&&(down)&&(!left)&&(!right)){
-						id="025";
-					}
-					if ((!up)&&(!down)&&(left)&&(!right)){
-						id="001";
-					}
-					if ((!up)&&(!down)&&(!left)&&(right)){
-						id="047";
-					}
-					if ((up)&&(!down)&&(left)&&(!right)){
-						id="299";
-					}
-					if ((up)&&(!down)&&(!left)&&(right)){
-						id="004";
-					}
-					if ((!up)&&(down)&&(left)&&(right)){
-						id="046";
-					}
-					if ((!up)&&(down)&&(!left)&&(right)){
-						id="048";
-					}
-				}
-				boolean ok=(name == "299")||(name == "002")||(name == "046")||(name == "048");
-				if (ok)
-					System.out.println(i + " " + j + " " + id);
-				//name = name of picture
-				 
-                name += id;*/
+
                 else g.drawImage(mountainImage, slotSize * i, slotSize * j, this);
 
                 if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
@@ -250,13 +203,26 @@ public class GameField extends JPanel {
                     if (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).isAlive == false)
                         game.getTowerManager().towerList.get(i).getProjectilesSpawned().remove(j);
                     else {
-                        g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
+                        double rad = Math.atan2(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getTarget().getLocY() + 32 - (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY() + 32), game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getTarget().getLocX() + 32 - (game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX() + 32));
+                        Graphics2D g2d = (Graphics2D) g.create();
+                        AffineTransform backup = g2d.getTransform();
+                        AffineTransform a = AffineTransform.getRotateInstance(rad, game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX() + 32, game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY() + 32);
+                        g2d.setTransform(a);
+                        g2d.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage, game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(), game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(), this);
+                       /* g.drawImage(game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).projectileImage,
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocX(),
                                 game.getTowerManager().towerList.get(i).getProjectilesSpawned().get(j).getLocY(),
-                                this);
+                                this);*/
+
                     }
                 }
             }
+        }
+    }
+
+    private void drawExplosion(Graphics g){
+        for (int i = 0; i < game.getExplosion().size(); i++) {
+            g.drawImage(game.getExplosion().get(i).enemyImage, game.getExplosion().get(i).getLocX(), game.getExplosion().get(i).getLocY(), this);
         }
     }
 
