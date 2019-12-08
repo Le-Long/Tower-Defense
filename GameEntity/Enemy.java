@@ -38,9 +38,14 @@ public class Enemy extends GameEntity {
         this.locY = locY;
         velocityX = 0;
         velocityY = 0;
-        enemyImageBuffer = new String[5];
+        enemyImageBuffer = new String[10];
         enemySidePathImageBuffer = new String[4];
-
+        enemyImageBuffer[4] = "/images/towerDefense_explosion_1.png";
+        enemyImageBuffer[5] = "/images/towerDefense_explosion_2.png";
+        enemyImageBuffer[6] = "/images/towerDefense_explosion_3.png";
+        enemyImageBuffer[7] = "/images/towerDefense_explosion_4.png";
+        enemyImageBuffer[8] = "/images/towerDefense_explosion_5.png";
+        enemyImageBuffer[9] = "/images/towerDefense_explosion_6.png";
     }
 
     public void playEnemyDie() {

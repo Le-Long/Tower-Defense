@@ -9,10 +9,12 @@ public class NormalTower extends Tower {
         try {
             setImage(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile180.png")));
             setTowerTurretImageFile(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile249.png")));
-            projectilesImageBuffer = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile272.png"));
+            setProjectilesImageBuffer(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile272.png")));
         } catch (IOException exc) {
             exc.printStackTrace();
         }
+        upgradedPath[0] = "/images/towerDefense_tile250.png";
+        upgradedPath[1] = "/images/towerDefense_tile273.png";
         setCost(200);
         setDamage(100);
         setTowerRange(150);

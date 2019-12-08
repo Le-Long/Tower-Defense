@@ -8,12 +8,17 @@ package towerdefensegui;
 import Control.Control;
 import Control.Shop;
 import GameEntity.AirEnemy;
+import GameEntity.Enemy;
 import GameEntity.EnemyManager;
 import GameTile.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author TA
@@ -37,6 +42,7 @@ public class GameManager implements java.io.Serializable {
     private boolean gameLost;
     private boolean gameWon;
     private int numOfWaveEnemy;
+    private ArrayList <Enemy> explosion;
 
     public GameManager(int level) {
         gameLost = false;
@@ -48,7 +54,10 @@ public class GameManager implements java.io.Serializable {
         time = minute + ":" + second;
         playerGold = 10000;
         numOfWaveEnemy = 0;
+        shop = new Shop();
+        explosion = new ArrayList<Enemy>();
         shop = Shop.getInstance();
+
         int[][] test = {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 0, 0, 0, 0, 0},
@@ -99,6 +108,7 @@ public class GameManager implements java.io.Serializable {
                 updateTowerTargets(); // updating targets
                 updateUserInputs(); // updating the controller
                 updateProjectiles();//updating the projectiles
+                updateExplosion();
             }
         };
         new Timer(delay, taskPerformer).start();
@@ -141,6 +151,7 @@ public class GameManager implements java.io.Serializable {
         //update alive enemies
         for (int i = 0; i < enemyManager.enemyList.size(); i++) {
             if (!(enemyManager.enemyList.get(i).isAlive)) {
+                explosion.add(enemyManager.enemyList.get(i));
                 playerScore = playerScore + enemyManager.enemyList.get(i).getResourceGiven() * 3;
                 playerGold = playerGold + enemyManager.enemyList.get(i).getResource();
                 enemyManager.enemyList.get(i).playEnemyDie();
@@ -236,6 +247,15 @@ public class GameManager implements java.io.Serializable {
             }
         }
     }
+    //UPDATE EXPLOSION
+    private void updateExplosion(){
+        for (int i = 0; i < explosion.size(); i++) {
+            int curImgNum = explosion.get(i).getEnemyImageNumber();
+            if (curImgNum < 4) explosion.get(i).setEnemyImage(4);
+            else if (curImgNum == 9) explosion.remove(i);
+            else explosion.get(i).setEnemyImage(curImgNum + 1);
+        }
+    }
 
     //UPDATING TOWER TARGETS
     private void updateTowerTargets() {
@@ -251,7 +271,7 @@ public class GameManager implements java.io.Serializable {
                                 < towerManager.towerList.get(i).getTowerRange()
                 ) {
                     if (enemyManager.enemyList.get(j).isAlive) {
-                        testNumber++;
+
                         if (enemyManager.enemyList.get(j) instanceof AirEnemy){
                             if (towerManager.towerList.get(i) instanceof SniperTower){
                                 towerManager.towerList.get(i).setTarget(enemyManager.enemyList.get(j));
@@ -270,7 +290,7 @@ public class GameManager implements java.io.Serializable {
                         towerManager.towerList.get(i).clearTarget();
                         return;
                     }
-                    testNumber++;
+
                     if (Math.sqrt((towerManager.towerList.get(i).getLocX() - towerManager.towerList.get(i).getTarget().locX) *
                             (towerManager.towerList.get(i).getLocX() - towerManager.towerList.get(i).getTarget().locX) +
                             (towerManager.towerList.get(i).getLocY() - towerManager.towerList.get(i).getTarget().locY) *
@@ -312,9 +332,10 @@ public class GameManager implements java.io.Serializable {
             return;
         }
         if (grid.getGridSlot(gridNoX, gridNoY) instanceof Mountain && control.getMouseX() != 0 && control.getMouseY() != 0) {
-            if (((Mountain) grid.getGridSlot(gridNoX, gridNoY)).hasTower) {
+            if (((Mountain) grid.getGridSlot(gridNoX, gridNoY)).hasTower && ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().isUpgraded() == false) {
                 if (playerGold >= ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().getCost()) {
                     ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().upgradeTower();
+                    ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().setUpgraded(true);
                     control.setMouseX(0);
                     control.setMouseY(0);
                     playerGold = playerGold - ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().getCost();
@@ -379,5 +400,9 @@ public class GameManager implements java.io.Serializable {
 
     public boolean getIsGameLost() {
         return gameLost;
+    }
+
+    public ArrayList<Enemy> getExplosion(){
+        return explosion;
     }
 }
