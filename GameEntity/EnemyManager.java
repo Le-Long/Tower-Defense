@@ -12,17 +12,21 @@ import java.util.ArrayList;
 /**
  * @author TA
  */
-public class EnemyManager {
+public class EnemyManager implements java.io.Serializable {
     public ArrayList<Enemy> enemyList;
     public int enemyCount = 0;
     Spawner starter = new Spawner();
     private int waveNo = 0;
+    private static EnemyManager INSTANCE = new EnemyManager();
 
-    public EnemyManager() {
+    private EnemyManager() {
         enemyList = new ArrayList<Enemy>();
         starter = new Spawner();
     }
 
+    public static EnemyManager getInstance() {
+        return INSTANCE;
+    }
 
     public void initializeEnemies() {
         //Truong's coding part
