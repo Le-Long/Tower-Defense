@@ -18,15 +18,16 @@ import java.io.IOException;
 /**
  * @author TA
  */
-public class Shop {
+public class Shop implements java.io.Serializable {
     private int itemCount;
     private BufferedImage[] itemImage;
     private Tower towerToPlace;
     private boolean towerBought = false;
     private String backgroundImageBuffer;
     private BufferedImage backgroundImage;
-
-    public Shop() {
+    private static Shop INSTANCE = new Shop();
+    
+    private Shop() {
         backgroundImageBuffer = "/images/shopBackground.jpg";
         try {
             backgroundImage = ImageIO.read(getClass().getResourceAsStream(backgroundImageBuffer));
@@ -35,6 +36,10 @@ public class Shop {
         }
         itemCount = 8;
         setShopItems();
+    }
+    
+    public static Shop getInstance() {
+        return INSTANCE;
     }
 
     public void buyTower(int mouseX, int mouseY, int playerGold) {

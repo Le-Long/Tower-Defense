@@ -12,7 +12,7 @@ package Control;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Control extends MouseAdapter {
+public class Control extends MouseAdapter implements java.io.Serializable {
 
     private int mouseX;
     private int mouseY;
