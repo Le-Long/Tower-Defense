@@ -54,7 +54,6 @@ public class GameManager implements java.io.Serializable {
         time = minute + ":" + second;
         playerGold = 10000;
         numOfWaveEnemy = 0;
-        shop = new Shop();
         explosion = new ArrayList<Enemy>();
         shop = Shop.getInstance();
 
