@@ -16,13 +16,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author TA
  */
 public class GameField extends JPanel {
     private GameManager game;
+    
     private BufferedImage roadImage;
     private BufferedImage mountainImage;
     private String timeImageBuffer;
@@ -37,9 +38,12 @@ public class GameField extends JPanel {
     private BufferedImage lifeImage;
     private BufferedImage gameWonImage;
     private BufferedImage gameLostImage;
+    
+    private javax.swing.JButton backBut;
+    private javax.swing.JButton saveBut;
     //private ImageIcon myImageIcon = new ImageIcon("/Sequences/64x48/explosion1_003.png");
 
-    public GameField() {
+    public GameField(GameManager game) {
         timeImageBuffer = "/images/time_icon.png";
         resourceImageBuffer = "/images/resource_icon.png";
         waveImageBuffer = "/images/wave_icon.png";
@@ -90,47 +94,67 @@ public class GameField extends JPanel {
             exc.printStackTrace();
         }
         //////////////////////////
-        game = new GameManager();
+        this.game = game;
+        backBut = new JButton();
+        saveBut = new JButton();
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(672, Short.MAX_VALUE)
+                                .addComponent(saveBut, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(backBut, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(101, 101, 101))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(714, Short.MAX_VALUE)
-                                .addGap(37, 37, 37))
+                                .addComponent(backBut, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(saveBut, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(85, 85, 85))
         );
         this.setPreferredSize(new Dimension(832, 776));
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
-
+        
+        saveBut.setText("Save Game");
+        saveBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButActionPerformed(evt);
+            }
+        });
+        backBut.setText("Back");
+        backBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButActionPerformed(evt);
+            }
+        });
     }
 
     //////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////PAINT OBJECTS//////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
     public void paintComponent(Graphics g) {
-
+        super.paintComponent(g);
         //DRAW GRIDS AND TOWERS 
         drawGridsAndTowers(g);
         drawTowers(g);
         //DRAW ENEMIES
         drawEnemies(g);
-        //DRAW GRAVEYARD
-        //drawGraveyard(g);
         //DRAW PROJECTILES
         drawProjectiles(g);
         //DRAW SHOP
         game.getShop().draw(g);
         //DRAW LAYOUT ELEMENTS
         drawLayoutElements(g);
+        //DRAW BACK BUTTON
+        //backBut.repaint();
         repaint();
+        
     }
 
     private void drawTowers(Graphics g) {
@@ -164,55 +188,7 @@ public class GameField extends JPanel {
                 if (cur instanceof Road) {
                     g.drawImage(roadImage, slotSize * i, slotSize * j, this);
                 }
-				/*
-				if (cur instanceof Mountain){
-					boolean up=false;
-					if (i > 0){
-						up=(game.getGrid().getGridSlot(i-1,j) instanceof Road);
-					}
-					boolean down=false;
-					if (i < width-1){
-						down=(game.getGrid().getGridSlot(i+1,j) instanceof Road);
-					}
-					boolean right=false;
-					if (j > 0){
-						right=(game.getGrid().getGridSlot(i,j-1) instanceof Road);
-					}
-					boolean left=false;
-					if (j < height-1){
-						right=(game.getGrid().getGridSlot(i,j+1) instanceof Road);
-					}
-					if ((up)&&(!down)&&(!left)&&(!right)){
-						id="023";
-					}
-					if ((!up)&&(down)&&(!left)&&(!right)){
-						id="025";
-					}
-					if ((!up)&&(!down)&&(left)&&(!right)){
-						id="001";
-					}
-					if ((!up)&&(!down)&&(!left)&&(right)){
-						id="047";
-					}
-					if ((up)&&(!down)&&(left)&&(!right)){
-						id="299";
-					}
-					if ((up)&&(!down)&&(!left)&&(right)){
-						id="004";
-					}
-					if ((!up)&&(down)&&(left)&&(right)){
-						id="046";
-					}
-					if ((!up)&&(down)&&(!left)&&(right)){
-						id="048";
-					}
-				}
-				boolean ok=(name == "299")||(name == "002")||(name == "046")||(name == "048");
-				if (ok)
-					System.out.println(i + " " + j + " " + id);
-				//name = name of picture
-				 
-                name += id;*/
+				
                 else g.drawImage(mountainImage, slotSize * i, slotSize * j, this);
 
                 if (game.getGrid().getGridSlot(i, j) instanceof Mountain) {
@@ -278,4 +254,25 @@ public class GameField extends JPanel {
         g.drawImage(lifeImage, 470, 590, this);
         g.drawString(game.getRemainingChances() + " / 10", 502, 610);
     }
+    
+    private void saveButActionPerformed(java.awt.event.ActionEvent evt) {  
+    	try {   
+        FileOutputStream fileStream = new FileOutputStream("GameState.txt");   
+        ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);   
+
+        objectStream.writeObject(game);  
+        objectStream.close();   
+        fileStream.close();   
+
+        JOptionPane.showConfirmDialog(this, 
+            "Save game state successfully.");   
+        } catch (Exception e) {   
+            JOptionPane.showConfirmDialog(this, 
+                e.toString() + "\nFail to save game state.");   
+        }   
+    }
+    
+    private void backButActionPerformed(java.awt.event.ActionEvent evt) {  
+    	GameStage settingsTriggered = new GameStage();
+    } 
 }
