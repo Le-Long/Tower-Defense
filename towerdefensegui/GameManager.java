@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 /**
  * @author TA
  */
-public class GameManager {
+public class GameManager implements java.io.Serializable {
     int testNumber = 1;
     private int playerScore = 0;
     private int playerGold;
@@ -38,7 +38,7 @@ public class GameManager {
     private boolean gameWon;
     private int numOfWaveEnemy;
 
-    public GameManager() {
+    public GameManager(int level) {
         gameLost = false;
         gameWon = false;
         remainingChances = 10;
@@ -48,7 +48,7 @@ public class GameManager {
         time = minute + ":" + second;
         playerGold = 10000;
         numOfWaveEnemy = 0;
-        shop = new Shop();
+        shop = Shop.getInstance();
         int[][] test = {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 0, 0, 0, 0, 0},
@@ -69,8 +69,8 @@ public class GameManager {
         grid = new Grid(test);
         //grid = new Grid(random.randomMap());
         control = new Control();
-        enemyManager = new EnemyManager();
-        towerManager = new TowerManager();
+        enemyManager = EnemyManager.getInstance();
+        towerManager = TowerManager.getInstance();
         screenX = grid.getGridSlotSize() * grid.getGridWidth();
         screenY = grid.getGridSlotSize() * grid.getGridHeight();
         updateObjects();
