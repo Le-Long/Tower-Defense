@@ -8,7 +8,7 @@ package GameEntity;
 /**
  * @author TA
  */
-public abstract class GameEntity {
+public abstract class GameEntity  implements java.io.Serializable{
     public int locX;
     public int locY;
 }
