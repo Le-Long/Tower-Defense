@@ -8,8 +8,9 @@ package towerdefensegui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.*;
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import javax.imageio.ImageIO;
 
 /**
@@ -20,7 +21,7 @@ public class MainMenu extends javax.swing.JPanel {
 	BufferedImage backgroundImage;
 	String imageBuffer = "/images/mainMenu.jpg";
 
-	Information info;
+	Instruction info;
 	// Variables declaration - do not modify
 	private javax.swing.JButton exitBut;
 	private javax.swing.JButton highScoreBut;
@@ -88,7 +89,7 @@ public class MainMenu extends javax.swing.JPanel {
 			}
 		});
 
-		infoBut.setText("Information");
+		infoBut.setText("Instruction");
 		infoBut.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				infoButActionPerformed(evt);
@@ -181,7 +182,7 @@ public class MainMenu extends javax.swing.JPanel {
 	}
 
 	private void infoButActionPerformed(java.awt.event.ActionEvent evt) {
-		GameStage.getInstance().showInstruct(new Information());
+		GameStage.getInstance().showInstruct(new Instruction());
 	}
 
 	private void highScoreButActionPerformed(java.awt.event.ActionEvent evt) {
