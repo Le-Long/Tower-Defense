@@ -13,8 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -24,14 +22,14 @@ import java.util.ArrayList;
  * @author TA
  */
 public class Tower extends GameEntity implements GameTile {
-    protected BufferedImage projectilesImageBuffer;
+    protected ImageIcon projectilesImageBuffer;
     private int towerRange;
     private int attackSpeed;
     private int dmg;
     private Enemy target;
     private ArrayList<Bullet> projectilesSpawned;
-    private BufferedImage towerImageFile;
-    private BufferedImage towerTurretImageFile;
+    private ImageIcon towerImageFile;
+    private ImageIcon towerTurretImageFile;
     private Timer myTimer;
     private boolean hasTarget;
     private int cost;
@@ -120,9 +118,9 @@ public class Tower extends GameEntity implements GameTile {
         setAttackSpeed(attackSpeed + 1);
         setTowerRange(towerRange + 2);
         try {
-            setTowerTurretImageFile(ImageIO.read(getClass().getResourceAsStream(upgradedPath[0])));
-            setProjectilesImageBuffer(ImageIO.read(getClass().getResourceAsStream(upgradedPath[1])));
-        } catch (IOException exc) {
+            setTowerTurretImageFile(getClass().getResource(upgradedPath[0]));
+            setProjectilesImageBuffer(getClass().getResource(upgradedPath[1]));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
     }
@@ -148,24 +146,24 @@ public class Tower extends GameEntity implements GameTile {
         return hasTarget;
     }
 
-    public BufferedImage getImage() {
+    public ImageIcon getImage() {
         return towerImageFile;
     }
 
-    public void setImage(BufferedImage input) {
-        towerImageFile = input;
+    public void setImage(java.net.URL input) {
+        towerImageFile = new ImageIcon(input);
     }
 
-    public BufferedImage getTowerTurretImageFile() {
+    public ImageIcon getTowerTurretImageFile() {
         return towerTurretImageFile;
     }
 
-    public void setTowerTurretImageFile(BufferedImage towerTurretImageFile) {
-        this.towerTurretImageFile = towerTurretImageFile;
+    public void setTowerTurretImageFile(java.net.URL towerTurretImageFile) {
+        this.towerTurretImageFile = new ImageIcon(towerTurretImageFile);
     }
 
-    public void setProjectilesImageBuffer(BufferedImage projectilesImageBuffer) {
-        this.projectilesImageBuffer = projectilesImageBuffer;
+    public void setProjectilesImageBuffer(java.net.URL projectilesImageBuffer) {
+        this.projectilesImageBuffer = new ImageIcon(projectilesImageBuffer);
     }
     public int getDamage() {
         return dmg;

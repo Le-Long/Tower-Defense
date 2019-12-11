@@ -8,6 +8,6 @@ package GameTile;
 /**
  * @author TA
  */
-public class Road implements GameTile {
+public class Road extends GameEntity.GameEntity implements GameTile {
 
 }

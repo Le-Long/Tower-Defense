@@ -5,15 +5,15 @@
  */
 package GameTile;
 
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 
 /**
  * @author TA
  */
-public class Mountain implements GameTile {
+public class Mountain extends GameEntity.GameEntity implements GameTile {
     public boolean hasTower;
-    public BufferedImage towerImage;
-    public BufferedImage turretImage;
+    public ImageIcon towerImage;
+    public ImageIcon turretImage;
     private Tower towerInThisSlot;
 
     public boolean mouseHitThisSlot(boolean isInBuyMode, Tower towerToPlace, int x, int y) {

@@ -7,10 +7,10 @@ public class SniperTower extends Tower {
     public SniperTower() {
         super();
         try {
-            setImage(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile181.png")));
-            setTowerTurretImageFile(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile205.png")));
-            setProjectilesImageBuffer(ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_tile251.png")));
-        } catch (IOException exc) {
+            setImage(getClass().getResource("/images/towerDefense_tile181.png"));
+            setTowerTurretImageFile(getClass().getResource("/images/towerDefense_tile205.png"));
+            setProjectilesImageBuffer(getClass().getResource("/images/towerDefense_tile251.png"));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
         upgradedPath[0] = "/images/towerDefense_tile206.png";
