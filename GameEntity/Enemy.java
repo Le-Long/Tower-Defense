@@ -8,8 +8,7 @@ package GameEntity;
 //import sun.audio.AudioStream;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import javax.swing.ImageIcon;
 import towerdefensegui.SoundManager;
 
 /**
@@ -17,11 +16,11 @@ import towerdefensegui.SoundManager;
  */
 public class Enemy extends GameEntity {
     //public AudioStream dieSound;
-    public BufferedImage enemyImage;
-    public BufferedImage enemySidePath;
+    public ImageIcon enemyImage;
+    public ImageIcon enemySidePath;
     public String[] enemyImageBuffer;
     public String[] enemySidePathImageBuffer;
-    public BufferedImage enemyHealth;
+    public ImageIcon enemyHealth;
     public boolean isAlive = true;
     private int armor;  // current armor
     private int health;  // current hp
@@ -57,78 +56,78 @@ public class Enemy extends GameEntity {
     public void setEnemyHB(double i) {
         if (i >= 1.00) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb100.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb100.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.8 && i <= 0.9) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb90.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon (getClass().getResource("/images/hb90.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.7 && i <= 0.8) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb80.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon (getClass().getResource("/images/hb80.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.6 && i <= 0.7) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb70.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon (getClass().getResource("/images/hb70.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.5 && i <= 0.6) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb60.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb60.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.4 && i <= 0.5) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb50.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb50.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.3 && i <= 0.4) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb40.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb40.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.2 && i <= 0.3) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb30.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb30.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.1 && i <= 0.2) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb20.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb20.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i > 0.0 && i <= 0.1) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb10.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb10.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
         if (i <= 0.0) {
             try {
-                enemyHealth = ImageIO.read(getClass().getResourceAsStream("/images/hb0.png"));
-            } catch (IOException exc) {
+                enemyHealth = new ImageIcon(getClass().getResource("/images/hb0.png"));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }
@@ -155,9 +154,9 @@ public class Enemy extends GameEntity {
     //////////Setters
     public void setEnemyImage(int i) {
         try {
-            enemyImage = ImageIO.read(getClass().getResourceAsStream(enemyImageBuffer[i]));
+            enemyImage = new ImageIcon(getClass().getResource(enemyImageBuffer[i]));
             enemyImageNumber = i;
-        } catch (IOException exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
     }
@@ -165,8 +164,8 @@ public class Enemy extends GameEntity {
     public void setEnemySidePathImage(int i) {
         if (hasSidePath == true) {
             try {
-                enemySidePath = ImageIO.read(getClass().getResourceAsStream(enemySidePathImageBuffer[i]));
-            } catch (IOException exc) {
+                enemySidePath = new ImageIcon(getClass().getResource(enemySidePathImageBuffer[i]));
+            } catch (Exception exc) {
                 exc.printStackTrace();
             }
         }

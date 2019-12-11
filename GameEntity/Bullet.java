@@ -5,25 +5,25 @@
  */
 package GameEntity;
 
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import towerdefensegui.SoundManager;
 
 /**
  * @author TA
  */
 public class Bullet extends GameEntity {
-    public BufferedImage projectileImage;
+    public ImageIcon projectileImage;
     public boolean isAlive = true;
     private double speed;
     private int damage;
     private int armorReduce;
     private double timeTillDie;
-    //private int damagePerSec;
     private Enemy target;
     private int targetLocX;
     private int targetLocY;
-    private boolean shootAir = false;
+    public boolean shootAir = false;
 
-    public Bullet(int x, int y, Enemy target, int damage, int projectileType, BufferedImage projectileImage) {
+    public Bullet(int x, int y, Enemy target, int damage, int projectileType, ImageIcon projectileImage) {
         this.projectileImage = projectileImage;
         setProjectileProperties(projectileType);
         timeTillDie = 20;
@@ -45,16 +45,12 @@ public class Bullet extends GameEntity {
     //<<<<<<< HEAD
     public void setProjectileProperties(int projectileType) {
         collision();
-        /*
-        if (projectileType == 0) {
-            //hit on ground enemy
-        } else if (projectileType == 1) {
-            //hit on air enemy
+        if (projectileType == 1) {
+            SoundManager rocketSound = new SoundManager("shot_sound.wav");
+            shootAir = true;
         } else if (projectileType == 2) {
-            collision();
-            //hit on both
+            this.armorReduce = 5;
         }
-        */
     }
 
     public void update() {

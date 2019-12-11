@@ -17,15 +17,10 @@ public class EnemyManager implements java.io.Serializable {
     public int enemyCount = 0;
     Spawner starter = new Spawner();
     private int waveNo = 0;
-    private static EnemyManager INSTANCE = new EnemyManager();
 
-    private EnemyManager() {
+    public EnemyManager() {
         enemyList = new ArrayList<Enemy>();
         starter = new Spawner();
-    }
-
-    public static EnemyManager getInstance() {
-        return INSTANCE;
     }
 
     public void initializeEnemies() {
