@@ -23,7 +23,7 @@ import java.io.*;
  */
 public class GameField extends JPanel {
     private GameManager game;
-    
+
     private BufferedImage roadImage;
     private BufferedImage mountainImage;
     private String timeImageBuffer;
@@ -38,7 +38,7 @@ public class GameField extends JPanel {
     private BufferedImage lifeImage;
     private BufferedImage gameWonImage;
     private BufferedImage gameLostImage;
-    
+
     private javax.swing.JButton backBut;
     private javax.swing.JButton saveBut;
     //private ImageIcon myImageIcon = new ImageIcon("/Sequences/64x48/explosion1_003.png");
@@ -120,7 +120,7 @@ public class GameField extends JPanel {
         setVisible(true);
         addMouseListener(game.getControl());
         addMouseMotionListener(game.getControl());
-        
+
         saveBut.setText("Save Game");
         saveBut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,7 +140,7 @@ public class GameField extends JPanel {
     //////////////////////////////////////////////////////////////////////////////
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //DRAW GRIDS AND TOWERS 
+        //DRAW GRIDS AND TOWERS
         drawGridsAndTowers(g);
         drawTowers(g);
         //DRAW ENEMIES
@@ -156,7 +156,7 @@ public class GameField extends JPanel {
         //DRAW BACK BUTTON
         //backBut.repaint();
         repaint();
-        
+
     }
 
     private void drawTowers(Graphics g) {
@@ -268,25 +268,26 @@ public class GameField extends JPanel {
         g.drawImage(lifeImage, 470, 590, this);
         g.drawString(game.getRemainingChances() + " / 10", 502, 610);
     }
-    
-    private void saveButActionPerformed(java.awt.event.ActionEvent evt) {  
-    	try {   
-        FileOutputStream fileStream = new FileOutputStream("GameState.txt");   
-        ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);   
 
-        objectStream.writeObject(game);  
-        objectStream.close();   
-        fileStream.close();   
+    private void saveButActionPerformed(java.awt.event.ActionEvent evt) {
+    	try {
+        FileOutputStream fileStream = new FileOutputStream("GameState.txt");
+        ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
 
-        JOptionPane.showConfirmDialog(this, 
-            "Save game state successfully.");   
-        } catch (Exception e) {   
-            JOptionPane.showConfirmDialog(this, 
-                e.toString() + "\nFail to save game state.");   
-        }   
+        objectStream.writeObject(game);
+        objectStream.close();
+        fileStream.close();
+
+        JOptionPane.showConfirmDialog(this,
+            "Save game state successfully.");
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(this,
+                e.toString() + "\nFail to save game state.");
+        }
     }
-    
-    private void backButActionPerformed(java.awt.event.ActionEvent evt) {  
-    	GameStage settingsTriggered = new GameStage();
-    } 
+
+    private void backButActionPerformed(java.awt.event.ActionEvent evt) {
+        removeAll(); revalidate();
+        GameStage.getInstance().backToMenu();
+    }
 }
