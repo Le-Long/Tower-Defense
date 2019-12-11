@@ -21,8 +21,9 @@ public class GameStage extends JFrame {
     Information instruct;
     HighScore scoreboard;
     SoundManager music;
+    public static GameStage instance = new GameStage();
 
-    public GameStage() {
+    private GameStage() { 
         music = new SoundManager();
         menu = new MainMenu();
         add(menu);
@@ -31,15 +32,28 @@ public class GameStage extends JFrame {
         pack();
     }
     
-    public GameStage(GameField gamefield) {
+    public static GameStage getInstance() {
+        return instance;
+    }
+    
+    public void backToMenu() {
+        remove(game);
+        add(menu);
+        init();
+        setVisible(true);
+        pack();
+    }
+    
+    public void playGame(GameField gamefield) {
         this.game = gamefield;
+        remove(menu);
         add(game);
         init();
         setVisible(true);
         pack();
     }
     
-    public GameStage(Information instruction) {
+    public void showInstruct(Information instruction) {
         this.instruct = instruction;
         add(this.instruct);
         init();
@@ -47,7 +61,7 @@ public class GameStage extends JFrame {
         pack();
     }
     
-    public GameStage(HighScore score) {
+    public void showScore(HighScore score) {
         this.scoreboard = score;
         add(this.scoreboard);
         init();

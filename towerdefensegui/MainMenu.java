@@ -145,22 +145,22 @@ public class MainMenu extends javax.swing.JPanel {
         FileInputStream fileStream = new FileInputStream("GameState.txt");   
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);   
 
-        GameStage settingsTriggered = new GameStage(new GameField((GameManager) objectStream.readObject()));
+        GameStage.getInstance().playGame(new GameField((GameManager) objectStream.readObject()));
         } catch (Exception e) {   
             System.out.println("Can't load object");
         }   
     }  
     
     private void playGameButActionPerformed(java.awt.event.ActionEvent evt, int level) {  
-    	GameStage settingsTriggered = new GameStage(new GameField(new GameManager(level)));
+    	GameStage.getInstance().playGame(new GameField(new GameManager(level)));
     }                                           
 
     private void infoButActionPerformed(java.awt.event.ActionEvent evt) {   
-        GameStage settingsTriggered = new GameStage(new Information());
+        GameStage.getInstance().showInstruct(new Information());
     }                                       
 
     private void highScoreButActionPerformed(java.awt.event.ActionEvent evt) {     
-    	GameStage settingsTriggered = new GameStage(new HighScore());
+    	GameStage.getInstance().showScore(new HighScore());
     }                                             
     private void exitButActionPerformed(java.awt.event.ActionEvent evt) {                                        
         System.exit(0);
