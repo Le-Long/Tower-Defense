@@ -12,29 +12,28 @@ import GameTile.Tower;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import javax.swing.ImageIcon;
 
 /**
  * @author TA
  */
 public class Shop implements java.io.Serializable {
     private int itemCount;
-    private BufferedImage[] itemImage;
+    private ImageIcon[] itemImage;
     private Tower towerToPlace;
     private boolean towerBought = false;
     private String backgroundImageBuffer;
-    private BufferedImage backgroundImage;
+    private ImageIcon backgroundImage;
     private static Shop INSTANCE = new Shop();
     
     private Shop() {
         backgroundImageBuffer = "/images/shopBackground.jpg";
         try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream(backgroundImageBuffer));
-        } catch (IOException exc) {
+            backgroundImage = new ImageIcon(getClass().getResource(backgroundImageBuffer));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
-        itemCount = 8;
+        itemCount = 3;
         setShopItems();
     }
     
@@ -78,20 +77,20 @@ public class Shop implements java.io.Serializable {
 
     public void setShopItems() {
         /*Long's coding part*/
-        itemImage = new BufferedImage[itemCount];
+        itemImage = new ImageIcon[itemCount];
         try {
-            itemImage[0] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_NormalTower.png"));
-        } catch (IOException exc) {
+            itemImage[0] = new ImageIcon(getClass().getResource("/images/towerDefense_NormalTower.png"));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
         try {
-            itemImage[1] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_SniperTower.png"));
-        } catch (IOException exc) {
+            itemImage[1] = new ImageIcon(getClass().getResource("/images/towerDefense_SniperTower.png"));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
         try {
-            itemImage[2] = ImageIO.read(getClass().getResourceAsStream("/images/towerDefense_MachinegunTower.png"));
-        } catch (IOException exc) {
+            itemImage[2] = new ImageIcon(getClass().getResource("/images/towerDefense_MachinegunTower.png"));
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
     }
@@ -119,10 +118,10 @@ public class Shop implements java.io.Serializable {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(backgroundImage, 0, 576, null);
-        g.drawImage(itemImage[0], 60, 636, null);
-        g.drawImage(itemImage[1], 120, 636, null);
-        g.drawImage(itemImage[2], 180, 636, null);
+        backgroundImage.paintIcon(null, g, 0, 576);
+        itemImage[0].paintIcon(null, g, 60, 636);
+        itemImage[1].paintIcon(null, g, 120, 636);
+        itemImage[2].paintIcon(null, g, 180, 636);
         g.drawString("200", 80, 636);
         g.drawString("400", 140, 636);
         g.drawString("500", 200, 636);
