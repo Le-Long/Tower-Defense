@@ -114,7 +114,7 @@ public class GameManager implements java.io.Serializable {
 		towerManager = new TowerManager();
 		screenX = grid.getGridSlotSize() * grid.getGridWidth();
 		screenY = grid.getGridSlotSize() * grid.getGridHeight();
-		updateObjects();
+		
 
 
 	}
