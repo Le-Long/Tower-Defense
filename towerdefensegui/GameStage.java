@@ -5,8 +5,9 @@
  */
 package towerdefensegui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.JFrame;
 
 /**
  * @author TA
@@ -14,18 +15,18 @@ import java.awt.*;
 
 public class GameStage extends JFrame {
 
+	public static GameStage instance = new GameStage();
 	static String title = "Tower Defense";
 	// grid width 13 * 60 / grid height 9 * 60 + 200
 	static Dimension size = new Dimension(780, 740);
 	MainMenu menu;
 	GameField game;
-	Information instruct;
+	Instruction instruct;
 	HighScore scoreboard;
 	SoundManager music;
-	public static GameStage instance = new GameStage();
 
 	private GameStage() {
-		//music = new SoundManager("background.wav");
+		music = new SoundManager("background.wav");
 		menu = new MainMenu();
 		add(menu);
 		init();
@@ -37,8 +38,25 @@ public class GameStage extends JFrame {
 		return instance;
 	}
 
-	public void backToMenu() {
+	public void gameToMenu() {
+		music = new SoundManager("background.wav");
 		remove(game);
+		add(menu);
+		init();
+		setVisible(true);
+		pack();
+	}
+
+	public void highscoreToMenu() {
+		remove(scoreboard);
+		add(menu);
+		init();
+		setVisible(true);
+		pack();
+	}
+
+	public void infoToMenu() {
+		remove(instruct);
 		add(menu);
 		init();
 		setVisible(true);
@@ -54,8 +72,9 @@ public class GameStage extends JFrame {
 		pack();
 	}
 
-	public void showInstruct(Information instruction) {
+	public void showInstruct(Instruction instruction) {
 		this.instruct = instruction;
+		remove(menu);
 		add(this.instruct);
 		init();
 		setVisible(true);
@@ -64,6 +83,7 @@ public class GameStage extends JFrame {
 
 	public void showScore(HighScore score) {
 		this.scoreboard = score;
+		remove(menu);
 		add(this.scoreboard);
 		init();
 		setVisible(true);
@@ -73,7 +93,7 @@ public class GameStage extends JFrame {
 	private void init() {
 		setLayout(new GridLayout(1, 1, 0, 0));
 		setTitle(title);
-		setSize(size);
+		//setSize(size);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

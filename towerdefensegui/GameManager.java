@@ -10,27 +10,27 @@ import Control.Shop;
 import GameEntity.AirEnemy;
 import GameEntity.Enemy;
 import GameEntity.EnemyManager;
-import GameTile.*;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import GameTile.Grid;
+import GameTile.Mountain;
+import GameTile.Road;
+import GameTile.SniperTower;
+import GameTile.TowerManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.Timer;
 
 /**
  * @author TA
  */
 public class GameManager implements java.io.Serializable {
 
-	int testNumber = 1;
+	private int level;
 	private int playerScore = 0;
 	private int playerGold;
 	private int screenX;
@@ -39,7 +39,7 @@ public class GameManager implements java.io.Serializable {
 	private TowerManager towerManager;
 	private Shop shop;
 	private Grid grid;
-	private Control control;
+	private Control Control;
 	private int minute;
 	private int second;
 	private int frameRate;
@@ -53,6 +53,7 @@ public class GameManager implements java.io.Serializable {
 	private boolean scoresaved = false;
 
 	public GameManager(int level) {
+		level = level;
 		gameLost = false;
 		gameWon = false;
 		remainingChances = 10;
@@ -116,12 +117,11 @@ public class GameManager implements java.io.Serializable {
 		//RandomMapGenerator random = new RandomMapGenerator();
 		grid = new Grid(test[level - 1]);
 		//grid = new Grid(random.randomMap());
-		control = new Control();
+		Control = new Control();
 		enemyManager = new EnemyManager();
 		towerManager = new TowerManager();
 		screenX = grid.getGridSlotSize() * grid.getGridWidth();
 		screenY = grid.getGridSlotSize() * grid.getGridHeight();
-		
 
 
 	}
@@ -134,26 +134,26 @@ public class GameManager implements java.io.Serializable {
 		ActionListener taskPerformer = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Checking if game is lost
-                if (remainingChances < 1) {
-                    gameLost = true;
-                }
+				if (remainingChances < 1) {
+					gameLost = true;
+				}
 				//Checking if game is won
-                if (enemyManager.getWaveNo() == 4 && enemyManager.enemyList.size() == 0) {
-                    gameWon = true;
-                }
-                if (gameLost || gameWon) {
-                	if (!scoresaved) {
+				if (enemyManager.getWaveNo() == 4 && enemyManager.enemyList.size() == 0) {
+					gameWon = true;
+				}
+				if (gameLost || gameWon) {
+					if (!scoresaved) {
 						scoresaved = true;
-                		scoreList.add(playerScore);
+						scoreList.add(playerScore);
 						loadHighscore();
 					}
-                    return;
-                }
+					return;
+				}
 				updateTime();
 				updateWave();
 				updateEnemies(); // updating enemies
 				updateTowerTargets(); // updating targets
-				updateUserInputs(); // updating the controller
+				updateUserInputs(); // updating the Controller
 				updateProjectiles();//updating the projectiles
 				updateExplosion();
 			}
@@ -199,7 +199,8 @@ public class GameManager implements java.io.Serializable {
 		for (int i = 0; i < enemyManager.enemyList.size(); i++) {
 			if (!(enemyManager.enemyList.get(i).isAlive)) {
 				explosion.add(enemyManager.enemyList.get(i));
-				playerScore = playerScore + enemyManager.enemyList.get(i).getResourceGiven() * 3;
+				playerScore =
+					playerScore + enemyManager.enemyList.get(i).getResourceGiven() * (level + 1);
 				playerGold = playerGold + enemyManager.enemyList.get(i).getResource();
 				enemyManager.enemyList.get(i).playEnemyDie();
 				enemyManager.killEnemy(i);
@@ -210,28 +211,28 @@ public class GameManager implements java.io.Serializable {
 				if (enemyManager.enemyList.get(i).getVelocityX() == -enemyManager.enemyList.get(i)
 					.getSpeed() && enemyManager.enemyList.get(i).getVelocityY() == 0) {
 					enemyManager.enemyList.get(i).setEnemyImage(0);
-                    if (enemyManager.enemyList.get(i).isHasSidePath()) {
-                        enemyManager.enemyList.get(i).setEnemySidePathImage(0);
-                    }
+					if (enemyManager.enemyList.get(i).isHasSidePath()) {
+						enemyManager.enemyList.get(i).setEnemySidePathImage(0);
+					}
 				} else if (
 					enemyManager.enemyList.get(i).getVelocityX() == enemyManager.enemyList.get(i)
 						.getSpeed() && enemyManager.enemyList.get(i).getVelocityY() == 0) {
 					enemyManager.enemyList.get(i).setEnemyImage(3);
-                    if (enemyManager.enemyList.get(i).isHasSidePath()) {
-                        enemyManager.enemyList.get(i).setEnemySidePathImage(3);
-                    }
+					if (enemyManager.enemyList.get(i).isHasSidePath()) {
+						enemyManager.enemyList.get(i).setEnemySidePathImage(3);
+					}
 				} else if (enemyManager.enemyList.get(i).getVelocityX() == 0
 					&& enemyManager.enemyList.get(i).getVelocityY() == -enemyManager.enemyList
 					.get(i).getSpeed()) {
 					enemyManager.enemyList.get(i).setEnemyImage(1);
-                    if (enemyManager.enemyList.get(i).isHasSidePath()) {
-                        enemyManager.enemyList.get(i).setEnemySidePathImage(1);
-                    }
+					if (enemyManager.enemyList.get(i).isHasSidePath()) {
+						enemyManager.enemyList.get(i).setEnemySidePathImage(1);
+					}
 				} else {
 					enemyManager.enemyList.get(i).setEnemyImage(2);
-                    if (enemyManager.enemyList.get(i).isHasSidePath()) {
-                        enemyManager.enemyList.get(i).setEnemySidePathImage(2);
-                    }
+					if (enemyManager.enemyList.get(i).isHasSidePath()) {
+						enemyManager.enemyList.get(i).setEnemySidePathImage(2);
+					}
 				}
 
 			}
@@ -242,11 +243,11 @@ public class GameManager implements java.io.Serializable {
 			enemyManager.enemyList.get(i).setEnemyHB(hppercent);
 			int gridX = enemyManager.enemyList.get(i).locX / 64;
 			int gridY = enemyManager.enemyList.get(i).locY / 64;
-            if (enemyManager.enemyList.get(i).getVelocityY() == -enemyManager.enemyList.get(i)
-                .getSpeed() && grid.getGridSlot(gridX + 1, gridY) instanceof Road
-                && enemyManager.enemyList.get(i).getLocY() > 5 + gridY * grid.getGridSlotSize()) {
-                gridY++;
-            }
+			if (enemyManager.enemyList.get(i).getVelocityY() == -enemyManager.enemyList.get(i)
+				.getSpeed() && grid.getGridSlot(gridX + 1, gridY) instanceof Road
+				&& enemyManager.enemyList.get(i).getLocY() > 5 + gridY * grid.getGridSlotSize()) {
+				gridY++;
+			}
 
 			if (gridX == grid.getGridWidth() - 1
 				&& enemyManager.enemyList.get(i).getVelocityX() == enemyManager.enemyList.get(i)
@@ -262,27 +263,27 @@ public class GameManager implements java.io.Serializable {
 
 			int switchCase;
 			if (gridY + 1 < 9) {
-                if (gridY == 0) {
-                    switchCase = -1; //start
-                } else if (grid.getGridSlot(gridX, gridY + 1) instanceof Road
-                    && enemyManager.enemyList.get(i).getVelocityY() == enemyManager.enemyList.get(i)
-                    .getSpeed()) {
-                    switchCase = 1; //DOWN
-                } else if (grid.getGridSlot(gridX, gridY - 1) instanceof Road
-                    && enemyManager.enemyList.get(i).getVelocityY() != enemyManager.enemyList.get(i)
-                    .getSpeed() && !(grid.getGridSlot(gridX + 1, gridY) instanceof Road)) {
-                    switchCase = 2; //UP
-                } else if (grid.getGridSlot(gridX + 1, gridY) instanceof Road) {
-                    switchCase = 3; //RIGHT
-                } else {
-                    switchCase = 0; //DEFAULT
-                }
+				if (gridY == 0) {
+					switchCase = -1; //start
+				} else if (grid.getGridSlot(gridX, gridY + 1) instanceof Road
+					&& enemyManager.enemyList.get(i).getVelocityY() == enemyManager.enemyList.get(i)
+					.getSpeed()) {
+					switchCase = 1; //DOWN
+				} else if (grid.getGridSlot(gridX, gridY - 1) instanceof Road
+					&& enemyManager.enemyList.get(i).getVelocityY() != enemyManager.enemyList.get(i)
+					.getSpeed() && !(grid.getGridSlot(gridX + 1, gridY) instanceof Road)) {
+					switchCase = 2; //UP
+				} else if (grid.getGridSlot(gridX + 1, gridY) instanceof Road) {
+					switchCase = 3; //RIGHT
+				} else {
+					switchCase = 0; //DEFAULT
+				}
 			} else {
-                if (grid.getGridSlot(gridX + 1, gridY) instanceof Road) {
-                    switchCase = 3; //RIGHT
-                } else {
-                    switchCase = 2; //UP
-                }
+				if (grid.getGridSlot(gridX + 1, gridY) instanceof Road) {
+					switchCase = 3; //RIGHT
+				} else {
+					switchCase = 2; //UP
+				}
 
 			}
 			switch (switchCase) {
@@ -329,13 +330,13 @@ public class GameManager implements java.io.Serializable {
 	private void updateExplosion() {
 		for (int i = 0; i < explosion.size(); i++) {
 			int curImgNum = explosion.get(i).getEnemyImageNumber();
-            if (curImgNum < 4) {
-                explosion.get(i).setEnemyImage(4);
-            } else if (curImgNum == 9) {
-                explosion.remove(i);
-            } else {
-                explosion.get(i).setEnemyImage(curImgNum + 1);
-            }
+			if (curImgNum < 4) {
+				explosion.get(i).setEnemyImage(4);
+			} else if (curImgNum == 9) {
+				explosion.remove(i);
+			} else {
+				explosion.get(i).setEnemyImage(curImgNum + 1);
+			}
 		}
 	}
 
@@ -400,34 +401,34 @@ public class GameManager implements java.io.Serializable {
 	//UPDATE PROJECTILES
 	private void updateProjectiles() {
 		int time = frameRate;
-        if (towerManager.towerList.size() == 0) {
-            return;
-        }
+		if (towerManager.towerList.size() == 0) {
+			return;
+		}
 		for (int i = 0; i < towerManager.towerList.size(); i++) {
 			for (int j = 0; j < towerManager.towerList.get(i).getProjectilesSpawned().size(); j++) {
 				towerManager.towerList.get(i).getProjectilesSpawned().get(j).update();
-                if (towerManager.towerList.get(i).getTarget() == null) {
-                    towerManager.towerList.get(i).getProjectilesSpawned().remove(j);
-                }
+				if (towerManager.towerList.get(i).getTarget() == null) {
+					towerManager.towerList.get(i).getProjectilesSpawned().remove(j);
+				}
 			}
 		}
 	}
 
 	private void updateUserInputs() {
 		boolean b;
-		int gridNoX = (control.getMouseX()) / 64;
-		int gridNoY = (control.getMouseY()) / 64;
-        if (control.getMouseX() == 0 && control.getMouseY() == 0) {
-            return;
-        }
-		if (control.getMouseY() > screenY) {
-			shop.buyTower(control.getMouseX(), control.getMouseY(), playerGold);
-			control.setMouseX(0);
-			control.setMouseY(0);
+		int gridNoX = (Control.getMouseX()) / 64;
+		int gridNoY = (Control.getMouseY()) / 64;
+		if (Control.getMouseX() == 0 && Control.getMouseY() == 0) {
 			return;
 		}
-		if (grid.getGridSlot(gridNoX, gridNoY) instanceof Mountain && control.getMouseX() != 0
-			&& control.getMouseY() != 0) {
+		if (Control.getMouseY() > screenY) {
+			shop.buyTower(Control.getMouseX(), Control.getMouseY(), playerGold);
+			Control.setMouseX(0);
+			Control.setMouseY(0);
+			return;
+		}
+		if (grid.getGridSlot(gridNoX, gridNoY) instanceof Mountain && Control.getMouseX() != 0
+			&& Control.getMouseY() != 0) {
 			if (((Mountain) grid.getGridSlot(gridNoX, gridNoY)).hasTower
 				&& ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().isUpgraded()
 				== false) {
@@ -435,8 +436,8 @@ public class GameManager implements java.io.Serializable {
 					.getCost()) {
 					((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().upgradeTower();
 					((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower().setUpgraded(true);
-					control.setMouseX(0);
-					control.setMouseY(0);
+					Control.setMouseX(0);
+					Control.setMouseY(0);
 					playerGold =
 						playerGold - ((Mountain) grid.getGridSlot(gridNoX, gridNoY)).getTower()
 							.getCost();
@@ -445,9 +446,9 @@ public class GameManager implements java.io.Serializable {
 			}
 		}
 
-        if (!(grid.getGridSlot(gridNoX, gridNoY) instanceof Mountain)) {
-            return;
-        }
+		if (!(grid.getGridSlot(gridNoX, gridNoY) instanceof Mountain)) {
+			return;
+		}
 		b = ((Mountain) grid.getGridSlot(gridNoX, gridNoY))
 			.mouseHitThisSlot(shop.getTowerBought(), shop.getTowerToPlace(),
 				gridNoX * grid.getGridHeight(), gridNoY * grid.getGridWidth());
@@ -457,31 +458,33 @@ public class GameManager implements java.io.Serializable {
 				shop.getTowerToPlace().setLocX(gridNoX * 64);
 				shop.getTowerToPlace().setLocY(gridNoY * 64);
 				shop.setTowerBought(false);
-				control.setMouseX(0);
-				control.setMouseY(0);
+				Control.setMouseX(0);
+				Control.setMouseY(0);
 				playerGold = playerGold - shop.getTowerToPlace().getCost();
 				shop.setTowerToPlace(null);
 			}
 		}
 	}
 
-	private void CreateSave(){
-		try{
+	private void CreateSave() {
+		try {
 			File file = new File("Highscore.txt");
 			file.createNewFile();
 			FileWriter fr = null;
 			fr = new FileWriter(file);
-			fr.write(""+0);
+			fr.write("" + 0);
 			fr.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void loadHighscore(){
-		try{
+	private void loadHighscore() {
+		try {
 			File f = new File("Highscore.txt");
-			if (!f.isFile()) CreateSave();
+			if (!f.isFile()) {
+				CreateSave();
+			}
 			Scanner sc = new Scanner(f);
 			while (sc.hasNext()) {
 				scoreList.add(sc.nextInt());
@@ -491,10 +494,11 @@ public class GameManager implements java.io.Serializable {
 			Collections.reverse(scoreList);
 			FileWriter fr = null;
 			fr = new FileWriter(f);
-			for (int i = 0; i < Math.min(scoreList.size(), 10); i++)
-				fr.write("" + scoreList.get(i) + '\n');
+			for (int i = 0; i < Math.min(scoreList.size(), 10); i++) {
+				fr.write("" + scoreList.get(i) + "\n");
+			}
 			fr.close();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -517,7 +521,7 @@ public class GameManager implements java.io.Serializable {
 	}
 
 	public Control getControl() {
-		return control;
+		return Control;
 	}
 
 	public String getTime() {
