@@ -25,7 +25,7 @@ public class GameStage extends JFrame {
 	public static GameStage instance = new GameStage();
 
 	private GameStage() {
-		music = new SoundManager("background.wav");
+		//music = new SoundManager("background.wav");
 		menu = new MainMenu();
 		add(menu);
 		init();

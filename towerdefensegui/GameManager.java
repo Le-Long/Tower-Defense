@@ -17,8 +17,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author TA
@@ -44,6 +49,8 @@ public class GameManager implements java.io.Serializable {
 	private boolean gameWon;
 	private int numOfWaveEnemy;
 	private ArrayList<Enemy> explosion;
+	private List<Integer> scoreList = new ArrayList<Integer>();
+	private boolean scoresaved = false;
 
 	public GameManager(int level) {
 		gameLost = false;
@@ -135,6 +142,11 @@ public class GameManager implements java.io.Serializable {
                     gameWon = true;
                 }
                 if (gameLost || gameWon) {
+                	if (!scoresaved) {
+						scoresaved = true;
+                		scoreList.add(playerScore);
+						loadHighscore();
+					}
                     return;
                 }
 				updateTime();
@@ -450,6 +462,40 @@ public class GameManager implements java.io.Serializable {
 				playerGold = playerGold - shop.getTowerToPlace().getCost();
 				shop.setTowerToPlace(null);
 			}
+		}
+	}
+
+	private void CreateSave(){
+		try{
+			File file = new File("Highscore.txt");
+			file.createNewFile();
+			FileWriter fr = null;
+			fr = new FileWriter(file);
+			fr.write(""+0);
+			fr.close();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	private void loadHighscore(){
+		try{
+			File f = new File("Highscore.txt");
+			if (!f.isFile()) CreateSave();
+			Scanner sc = new Scanner(f);
+			while (sc.hasNext()) {
+				scoreList.add(sc.nextInt());
+			}
+			sc.close();
+			Collections.sort(scoreList);
+			Collections.reverse(scoreList);
+			FileWriter fr = null;
+			fr = new FileWriter(f);
+			for (int i = 0; i < Math.min(scoreList.size(), 10); i++)
+				fr.write("" + scoreList.get(i) + '\n');
+			fr.close();
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 
