@@ -10,6 +10,7 @@ package GameEntity;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import towerdefensegui.SoundManager;
 
 /**
  * @author TA
@@ -49,6 +50,7 @@ public class Enemy extends GameEntity {
     }
 
     public void playEnemyDie() {
+        new SoundManager("explosion_sound.wav");
     }
 
     //////////Setters
